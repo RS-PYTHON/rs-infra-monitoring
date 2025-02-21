@@ -97,7 +97,7 @@ prometheus:
     ##
       volumeClaimTemplate:
         spec:
-          storageClassName: csi-cinder-sc-retain
+          storageClassName: csi-cinder-high-speed-retain
           accessModes: ["ReadWriteOnce"]
           resources:
             requests:

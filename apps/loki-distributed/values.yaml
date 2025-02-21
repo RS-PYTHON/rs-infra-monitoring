@@ -86,7 +86,7 @@ ingester:
     claims:
       - name: data
         size: 20Gi
-        storageClass: csi-cinder-sc-retain
+        storageClass: csi-cinder-high-speed-retain
     enableStatefulSetAutoDeletePVC: false
     whenDeleted: Retain
     whenScaled: Retain
@@ -150,7 +150,7 @@ querier:
   persistence:
     enabled: true
     size: 20Gi
-    storageClass: csi-cinder-sc-retain
+    storageClass: csi-cinder-high-speed-retain
   max_concurrent: 16
   affinity: |         
     nodeAffinity:
