@@ -12,13 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-global:
-  image:
-    registry: docker.io
-  clusterDomain: 'cluster.local'
-  dnsService: 'coredns'
-  dnsNamespace: 'kube-system'
-
 useExternalConfig: false
 
 tempo:
