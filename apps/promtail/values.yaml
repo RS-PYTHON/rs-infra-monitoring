@@ -29,7 +29,22 @@ tolerations:
   - key: node-role.kubernetes.io/control-plane
     operator: Exists
     effect: NoSchedule
+  - key: node-role.kubernetes.io/infra
+    operator: Exists
+    effect: NoSchedule
   - key: node-role.kubernetes.io/processing
+    operator: Exists
+    effect: NoSchedule
+  - key: node-role.kubernetes.io/access_csc
+    operator: Exists
+    effect: NoSchedule
+  - key: node-role.kubernetes.io/prefect_flow
+    operator: Exists
+    effect: NoSchedule
+  - key: node-role.kubernetes.io/ondemand_dpr
+    operator: Exists
+    effect: NoSchedule
+  - key: node-role.kubernetes.io/systematic_dpr
     operator: Exists
     effect: NoSchedule
 
