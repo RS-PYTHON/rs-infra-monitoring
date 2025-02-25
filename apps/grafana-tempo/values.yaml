@@ -259,7 +259,3 @@ enterpriseGateway:
   terminationGracePeriodSeconds: 60
   ingress:
     enabled: false
-
-
-
-
