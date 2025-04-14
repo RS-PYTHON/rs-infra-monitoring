@@ -13,6 +13,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) 
 >- **Fixed** for any bug fixes.
 >- **Security** in case of vulnerabilities.
 
+
+## [0.2a12] - 2025-04-14
+
+- No changes
+
 ## [0.2a11] - 2025-03-12
 
 :rotating_light: **Breaking changes**
