@@ -57,6 +57,33 @@ tolerations:
 config:
   clients:
     - url: http://loki-distributed-gateway.logging.svc.cluster.local/loki/api/v1/push
+  snippets:
+    # Must follow _FORMAT in https://github.com/RS-PYTHON/rs-server/blob/develop/services/common/rs_server_common/utils/logging.py
+    # https://grafana.com/docs/loki/latest/send-data/promtail/stages/
+    pipelineStages:
+      - cri: {}
+      - match:
+          selector: '{app=~"rs-.+"} |~ ".*trace_id.*"'
+          stages:
+          - regex:
+              expression: ^(?P<ts>\S+) .+\dm(?P<level>\w+).+0m \[(?P<otel>[^\]]+)\] \((?P<logger>[^\)]+)\) (?P<msg>.*)$
+              source: content
+          - labels:
+              level:
+              logger:
+          - logfmt:
+              mapping:
+                trace_sampled:
+                service_name: resource.service.name
+              source: otel
+          - labels:
+              trace_sampled:
+              service_name:
+          - template:
+              source: output_msg
+              template: '{{ "{{" }} .otel {{ "}}" }} {{ "{{" }} .logger {{ "}}" }} {{ "{{" }} .msg {{ "}}" }}'
+          - output:
+              source: output_msg
 
 serviceMonitor:
   enabled: true

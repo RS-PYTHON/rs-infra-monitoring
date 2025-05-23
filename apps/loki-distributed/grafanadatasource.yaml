@@ -28,5 +28,12 @@ spec:
     url: http://loki-distributed-query-frontend.logging.svc.cluster.local:3100
     isDefault: false
     jsonData:
+      derivedFields:
+        - name: "span_id"
+          matcherRegex: "span_id=(\\w+)"
+        - name: "trace_id"
+          matcherRegex: "trace_id=(\\w+)"
+          url: "${__value.raw}"
+          datasourceUid: "tempo"
       "tlsSkipVerify": true
       "timeInterval": "5s"
