@@ -81,7 +81,7 @@ config:
               service_name:
           - template:
               source: output_msg
-              template: '{{ .otel }} {{ .logger }} {{ .msg }}'
+              template: '{{ "{{" }} .otel {{ "}}" }} {{ "{{" }} .logger {{ "}}" }} {{ "{{" }} .msg {{ "}}" }}'
           - output:
               source: output_msg
 
