@@ -28,5 +28,22 @@ spec:
     url: http://grafana-tempo-query-frontend.logging.svc.cluster.local:3100
     isDefault: false
     jsonData:
+      lokiSearch:
+        datasourceUid: "Loki"
+      nodeGraph:
+        enabled: true
+      serviceMap:
+        datasourceUid: "Prometheus"
+      tracesToLogsV2:
+        datasourceUid: "Loki"
+        filterBySpanID:	true
+        filterByTraceID: true
+        spanEndTimeShift: "1m"
+        spanStartTimeShift: "-1m"
+        tags:
+          - key: "service.name"
+            value: "service_name"
+          - key: "pod"
+            value: ""
       "tlsSkipVerify": true
       "timeInterval": "5s"
