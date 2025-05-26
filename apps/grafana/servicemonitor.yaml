@@ -22,6 +22,6 @@ spec:
     path: /metrics
     port: grafana-http
     scrapeTimeout: {{ grafana.serviceMonitor.scrapeTimeout }}
-  selector: 
-    matchLabels: 
+  selector:
+    matchLabels:
       app: grafana

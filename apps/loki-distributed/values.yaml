@@ -67,7 +67,7 @@ ingester:
     registry: docker.io
     repository: grafana/loki
     tag: 2.9.6
-  extraArgs: 
+  extraArgs:
     - -config.expand-env=true
   resources:
     limits:
@@ -88,7 +88,7 @@ ingester:
     enableStatefulSetAutoDeletePVC: false
     whenDeleted: Retain
     whenScaled: Retain
-  affinity: |         
+  affinity: |
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
         nodeSelectorTerms:
@@ -107,7 +107,7 @@ distributor:
   extraEnvFrom:
     - secretRef:
         name: loki-s3-credentials
-  resources: 
+  resources:
     limits:
       cpu: 300m
       memory: 256Mi
@@ -115,7 +115,7 @@ distributor:
       cpu: 100m
       memory: 128Mi
   maxUnavailable: 3
-  affinity: |         
+  affinity: |
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
         nodeSelectorTerms:
@@ -150,7 +150,7 @@ querier:
     #size: 5Gi
     #storageClass: csi-cinder-high-speed-retain
   max_concurrent: 16
-  affinity: |         
+  affinity: |
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
         nodeSelectorTerms:
@@ -171,7 +171,7 @@ queryFrontend:
       cpu: 40m
       memory: 64Mi
   maxUnavailable: 3
-  affinity: |         
+  affinity: |
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
         nodeSelectorTerms:
@@ -199,7 +199,7 @@ compactor:
     requests:
       cpu: 20m
       memory: 64Mi
-  affinity: |         
+  affinity: |
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
         nodeSelectorTerms:
@@ -224,7 +224,7 @@ memcachedExporter:
 
 gateway:
   enabled: true
-  affinity: |         
+  affinity: |
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
         nodeSelectorTerms:
