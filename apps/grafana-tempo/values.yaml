@@ -47,7 +47,7 @@ rbac:
 
 
 ingester:
-  affinity: |         
+  affinity: |
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
         nodeSelectorTerms:
@@ -68,7 +68,7 @@ distributor:
       enabled: false
       include_all_attributes: false
       filter_by_status_error: false
-  affinity: |         
+  affinity: |
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
         nodeSelectorTerms:
@@ -83,7 +83,7 @@ compactor:
     dnsConfig:
       options:
         - name: ndots
-  affinity: |         
+  affinity: |
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
         nodeSelectorTerms:
@@ -95,14 +95,14 @@ querier:
   replicas: 1
   autoscaling:
     enabled: false
-  affinity: |         
+  affinity: |
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
         nodeSelectorTerms:
           - matchExpressions:
             - key: "node-role.kubernetes.io/infra"
               operator: Exists
-  
+
 queryFrontend:
   query:
     enabled: true
@@ -118,7 +118,7 @@ queryFrontend:
     type: ClusterIP
   ingress:
     enabled: false
-  affinity: |         
+  affinity: |
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
         nodeSelectorTerms:
@@ -168,7 +168,7 @@ storage:
       bucket: {{ grafanatempo.s3.bucket }}
       endpoint: {{ s3.endpoint | regex_replace('http(.)?://', '') }}
       region: {{ s3.region }}
-      insecure: false   
+      insecure: false
     pool:
       max_workers: 400
       queue_depth: 20000
@@ -189,7 +189,7 @@ memcached:
     pullPolicy: IfNotPresent
   host: memcached
   replicas: 1
-  affinity: |         
+  affinity: |
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
         nodeSelectorTerms:
@@ -200,7 +200,7 @@ memcached:
 metaMonitoring:
   serviceMonitor:
     enabled: true
-    interval: {{ grafanatempo.metaMonitoring.serviceMonitor.interval}} 
+    interval: {{ grafanatempo.metaMonitoring.serviceMonitor.interval}}
     scrapeTimeout: {{ grafanatempo.metaMonitoring.serviceMonitor.scrapeTimeout }}
     scheme: http
 
