@@ -154,8 +154,8 @@ server:
   httpListenPort: 3100
   logLevel: info
   logFormat: logfmt
-  grpc_server_max_recv_msg_size: 4194304
-  grpc_server_max_send_msg_size: 4194304
+  grpc_server_max_recv_msg_size: 41943040
+  grpc_server_max_send_msg_size: 41943040
   http_server_read_timeout: 30s
   http_server_write_timeout: 30s
 
@@ -177,6 +177,7 @@ storage:
 
 global_overrides:
   per_tenant_override_config: /runtime-config/overrides.yaml
+  max_bytes_per_trace: 50000000
 
 overrides: |
   overrides: {}
