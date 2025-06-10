@@ -13,6 +13,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) 
 >- **Fixed** for any bug fixes.
 >- **Security** in case of vulnerabilities.
 
+## [0.2a14] - 2025-06-10
+
+### Changed
+
+- [RSPY-687](https://github.com/RS-PYTHON/rs-infra-monitoring/pull/2) : Promtail/Loki/Tempo: enable "Trace to logs" in Grafana
+- [PR#3](https://github.com/RS-PYTHON/rs-infra-monitoring/pull/3) : Enable pre-commit
+- [PR#4](https://github.com/RS-PYTHON/rs-infra-monitoring/pull/4) : Enable CI/CD
+
+### Fixed
+
+- [PR#5](https://github.com/RS-PYTHON/rs-infra-monitoring/pull/5) : increase trace max size
 
 ## [0.2a12] - 2025-04-14
 
