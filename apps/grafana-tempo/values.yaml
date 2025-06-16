@@ -77,6 +77,8 @@ distributor:
               operator: Exists
 
 compactor:
+  compaction:
+    block_retention: 2160h #2160 hours in 90 days
   replicas: 1
   dnsConfigOverides:
     enabled: false
