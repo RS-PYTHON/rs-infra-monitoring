@@ -24,13 +24,29 @@ resources:
 
 tolerations:
   - key: node-role.kubernetes.io/master
-    operator: Exists
     effect: NoSchedule
   - key: node-role.kubernetes.io/control-plane
-    operator: Exists
     effect: NoSchedule
   - key: role
-    operator: Exists
+    value: infra
+    effect: NoSchedule
+  - key: role
+    value: rs_server
+    effect: NoSchedule
+  - key: role
+    value: rs_env
+    effect: NoSchedule
+  - key: role
+    value: access_csc
+    effect: NoSchedule
+  - key: role
+    value: prefect_flow
+    effect: NoSchedule
+  - key: role
+    value: dask_scheduler
+    effect: NoSchedule
+  - key: role
+    value: dask_worker_on_demand
     effect: NoSchedule
 
 config:
