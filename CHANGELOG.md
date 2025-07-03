@@ -13,6 +13,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) 
 >- **Fixed** for any bug fixes.
 >- **Security** in case of vulnerabilities.
 
+## [0.2a15] - 2025-07-04
+
+### Changed
+
+- [RSPY-269](https://github.com/RS-PYTHON/rs-infra-monitoring/pull/11) : Update grafana
+- [RSPY-697](https://github.com/RS-PYTHON/rs-infra-monitoring/pull/10) : Update nodepools
+- [PR#9](https://github.com/RS-PYTHON/rs-infra-monitoring/pull/9) : Increase retention from 2days to 90days
+
+
 ## [0.2a14] - 2025-06-10
 
 ### Changed
