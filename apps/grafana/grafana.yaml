@@ -26,11 +26,11 @@ spec:
       plugins: /var/lib/grafana/plugins
       provisioning: /etc/grafana/provisioning
     analytics:
-      check_for_updates: "true"
+      check_for_updates: "false"
+      check_for_plugin_updates: "false"
+      reporting_enabled: "false"
     log:
       mode: console
-    grafana_net:
-      url: https://grafana.net
     server:
       domain: monitoring.{{ platform_domain_name }}
       root_url: https://monitoring.{{ platform_domain_name }}
@@ -40,7 +40,6 @@ spec:
       signout_redirect_url: https://iam.{{ platform_domain_name }}/realms/rspy/protocol/openid-connect/logout?redirect_uri=https%3A%2F%2Fmonitoring.{{ platform_domain_name }}%2F
     auth.generic_oauth:
       enabled: "true"
-      allow_sign_up: "true"
       client_id: grafana
       client_secret: ${GRAFANA_CLIENT_SECRET}
       scopes: "openid profile email"
@@ -62,6 +61,9 @@ spec:
     unified_alerting:
       enabled: "true"
   ingress:
+    metadata:
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
     spec:
       ingressClassName: nginx
       rules:
@@ -85,7 +87,7 @@ spec:
         spec:
           containers:
             - name: grafana
-              image: grafana/grafana:10.0.4
+              image: grafana/grafana:12.0.2
               resources:
                 limits:
                   cpu: 500m
@@ -111,7 +113,7 @@ spec:
               - name: grafana-data
                 mountPath: /var/lib/grafana
           securityContext:
-            fsGroup: 104
+            fsGroup: 472
           volumes:
           - name: grafana-data
             persistentVolumeClaim:

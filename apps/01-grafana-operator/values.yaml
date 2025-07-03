@@ -1,0 +1,13 @@
+# -- pod affinity
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: node-role.kubernetes.io/infra
+          operator: Exists
+
+serviceMonitor:
+  enabled: true
+
+namespaceScope: true
