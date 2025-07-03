@@ -12,15 +12,11 @@
  # See the License for the specific language governing permissions and 
  # limitations under the License. 
 
-namespace: monitoring
-namePrefix: "{{ app_name }}-"
-
-commonLabels:
-  app.kubernetes.io/instance: "{{ app_name }}"
-
-resources:
-  - deployment.yaml
-  - networkpolicy.yaml
-  - rbac.yaml
-  - serviceaccount.yaml
-  - servicemonitor.yaml
+namespace: debug-nleconte
+helmCharts:
+- name: grafana-operator
+  repo: oci://ghcr.io/grafana/helm-charts/
+  releaseName: "{{ app_name }}"
+  version: v5.18.0
+  namespace: debug-nleconte
+  valuesFile: values.yaml
