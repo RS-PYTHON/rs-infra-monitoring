@@ -10,4 +10,4 @@ affinity:
 serviceMonitor:
   enabled: true
 
-namespaceScope: true
+namespaceScope: false
