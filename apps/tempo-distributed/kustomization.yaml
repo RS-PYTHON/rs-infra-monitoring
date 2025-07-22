@@ -12,17 +12,20 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-commonLabels:
-  app.kubernetes.io/instance: "{{ app_name }}"
-
+kind: Kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
 namespace: logging
+labels:
+- includeSelectors: true
+  pairs:
+    app.kubernetes.io/instance: "{{ app_name }}"
 
 helmCharts:
 - name: tempo-distributed
   namespace: logging
   repo: https://grafana.github.io/helm-charts/
   releaseName: "{{ app_name }}"
-  version: 1.9.9
+  version: 1.46.0
   valuesFile: values.yaml
 
 resources:
