@@ -85,11 +85,7 @@ storage:
       insecure: false
 
 global_overrides:
-  per_tenant_override_config: /runtime-config/overrides.yaml
   max_bytes_per_trace: 50000000
-
-overrides: |
-  overrides: {}
 
 memcached:
   affinity: |
