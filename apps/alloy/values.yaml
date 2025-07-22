@@ -260,7 +260,7 @@ alloy:
 
           stage.template {
             source   = "output_msg"
-            template = "{{ .otel }} {{ .logger }} {{ .msg }}"
+            template = "{% raw %}{{ .otel }} {{ .logger }} {{ .msg }}{% endraw %}"
           }
 
           stage.output {
@@ -268,3 +268,4 @@ alloy:
           }
         }
       }
+
