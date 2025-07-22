@@ -117,7 +117,6 @@ alloy:
         }
       }
 
-
       // discovery.kubernetes allows you to find scrape targets from Kubernetes resources.
       // It watches cluster state and ensures targets are continually synced with what is currently running in your cluster.
       discovery.kubernetes "pod" {
@@ -219,53 +218,53 @@ alloy:
       // loki.process receives log entries from other Loki components, applies one or more processing stages,
       // and forwards the results to the list of receivers in the component's arguments.
       loki.process "pod_logs" {
-        stage.static_labels {
-            values = {
-              cluster = "dev",
-            }
-        }
+        //stage.static_labels {
+        //    values = {
+        //      cluster = "dev",
+        //    }
+        //}
 
         forward_to = [loki.write.k8s.receiver]
-        
+
         stage.cri { }
 
         stage.match {
           selector = "{app=~\"rs-.+\"} |~ \".*trace_id.*\""
 
           stage.regex {
-                  expression = "^(?P<ts>\\S+) .+\\dm(?P<level>\\w+).+0m \\[(?P<otel>[^\\]]+)\\] \\((?P<logger>[^\\)]+)\\) (?P<msg>.*)$"
-                  source     = "content"
+            expression = "^(?P<ts>\\S+) .+\\dm(?P<level>\\w+).+0m \\[(?P<otel>[^\\]]+)\\] \\((?P<logger>[^\\)]+)\\) (?P<msg>.*)$"
+            source     = "content"
           }
 
           stage.labels {
-                  values = {
-                          level  = null,
-                          logger = null,
-                  }
+            values = {
+              level  = "",
+              logger = "",
+            }
           }
 
           stage.logfmt {
-                  mapping = {
-                          service_name  = "resource.service.name",
-                          trace_sampled = "",
-                  }
-                  source = "otel"
+            mapping = {
+              service_name  = "resource.service.name",
+              trace_sampled = "",
+            }
+            source = "otel"
           }
 
           stage.labels {
-                  values = {
-                          service_name  = null,
-                          trace_sampled = null,
-                  }
+            values = {
+              service_name  = "",
+              trace_sampled = "",
+            }
           }
 
           stage.template {
-                  source   = "output_msg"
-                  template = "{{ .otel }} {{ .logger }} {{ .msg }}"
+            source   = "output_msg"
+            template = "{{ .otel }} {{ .logger }} {{ .msg }}"
           }
 
           stage.output {
-                  source = "output_msg"
+            source = "output_msg"
           }
         }
       }
