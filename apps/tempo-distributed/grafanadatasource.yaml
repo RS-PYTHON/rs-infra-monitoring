@@ -25,7 +25,7 @@ spec:
     name: tempo
     type: tempo
     access: proxy
-    url: http://grafana-tempo-query-frontend.logging.svc.cluster.local:3200
+    url: http://tempo-distributed-query-frontend.logging.svc.cluster.local:3200
     isDefault: false
     jsonData:
       lokiSearch:
