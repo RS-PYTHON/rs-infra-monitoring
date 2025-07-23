@@ -30,3 +30,11 @@ helmCharts:
 
 resources:
   - grafanadatasource.yaml
+
+secretGenerator:
+- name: tempo-s3-credentials
+  literals:
+  - S3_ACCESS_KEY="{{ s3.access_key }}"
+  - S3_SECRET_KEY="{{ s3.secret_key }}"
+  options:
+    disableNameSuffixHash: true

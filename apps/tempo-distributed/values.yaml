@@ -12,55 +12,89 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ingester:
-  affinity: |
-    nodeAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-        nodeSelectorTerms:
-          - matchExpressions:
-            - key: "node-role.kubernetes.io/infra"
-              operator: Exists
 
-distributor:
-  affinity: |
-    nodeAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-        nodeSelectorTerms:
-          - matchExpressions:
-            - key: "node-role.kubernetes.io/infra"
-              operator: Exists
+overrides:
+  defaults:
+    metrics_generator:
+      processors:
+        - service-graphs
+        - span-metrics
+        - local-blocks
 
 compactor:
   config:
     compaction:
       block_retention: 2160h #2160 hours in 90 days
-  affinity: |
-    nodeAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-        nodeSelectorTerms:
-          - matchExpressions:
-            - key: "node-role.kubernetes.io/infra"
-              operator: Exists
+  nodeSelector:
+    node-role.kubernetes.io/infra: ""
+  extraArgs:
+    - -config.expand-env=true
+  extraEnvFrom:
+    - secretRef:
+        name: tempo-s3-credentials
+
+distributor:
+  nodeSelector:
+    node-role.kubernetes.io/infra: ""
+  extraArgs:
+    - -config.expand-env=true
+  extraEnvFrom:
+    - secretRef:
+        name: tempo-s3-credentials
+
+ingester:
+  persistence:
+    enabled: true
+    storageClass: csi-cinder-high-speed-retain
+  nodeSelector:
+    node-role.kubernetes.io/infra: ""
+  extraArgs:
+    - -config.expand-env=true
+  extraEnvFrom:
+    - secretRef:
+        name: tempo-s3-credentials
+
+metricsGenerator:
+  enabled: true
+  kind: StatefulSet
+  persistence:
+    enabled: true
+    storageClass: csi-cinder-high-speed-retain
+  config:
+    storage:
+      remote_write:
+        - url: "http://prometheus-kube-prometheus-prometheus.monitoring.svc.cluster.local:9090/prometheus/api/v1/write"
+    processor:
+      local_blocks:
+        filter_server_spans: false
+        flush_to_storage: true
+  nodeSelector:
+    node-role.kubernetes.io/infra: ""
+  extraArgs:
+    - -config.expand-env=true
+  extraEnvFrom:
+    - secretRef:
+        name: tempo-s3-credentials
 
 querier:
-  affinity: |
-    nodeAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-        nodeSelectorTerms:
-          - matchExpressions:
-            - key: "node-role.kubernetes.io/infra"
-              operator: Exists
+  nodeSelector:
+    node-role.kubernetes.io/infra: ""
+  extraArgs:
+    - -config.expand-env=true
+  extraEnvFrom:
+    - secretRef:
+        name: tempo-s3-credentials
 
 queryFrontend:
   query:
     enabled: true
-  affinity: |
-    nodeAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-        nodeSelectorTerms:
-          - matchExpressions:
-            - key: "node-role.kubernetes.io/infra"
-              operator: Exists
+  nodeSelector:
+    node-role.kubernetes.io/infra: ""
+  extraArgs:
+    - -config.expand-env=true
+  extraEnvFrom:
+    - secretRef:
+        name: tempo-s3-credentials
 
 traces:
   otlp:
@@ -77,8 +111,8 @@ storage:
   trace:
     backend: s3
     s3:
-      access_key: {{ s3.access_key }}
-      secret_key: {{ s3.secret_key }}
+      access_key: ${S3_ACCESS_KEY}
+      secret_key: ${S3_SECRET_KEY}
       bucket: {{ grafanatempo.s3.bucket }}
       endpoint: {{ s3.endpoint | regex_replace('http(.)?://', '') }}
       region: {{ s3.region }}
@@ -88,13 +122,8 @@ global_overrides:
   max_bytes_per_trace: 50000000
 
 memcached:
-  affinity: |
-    nodeAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-        nodeSelectorTerms:
-          - matchExpressions:
-            - key: "node-role.kubernetes.io/infra"
-              operator: Exists
+  nodeSelector:
+    node-role.kubernetes.io/infra: ""
 
 metaMonitoring:
   serviceMonitor:
