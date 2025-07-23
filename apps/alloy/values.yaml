@@ -81,7 +81,7 @@ alloy:
 
       otelcol.exporter.otlphttp "loki" {
         client {
-          endpoint = "http://loki-distributed-gateway.logging.svc.cluster.local/loki/api/v1/push"
+          endpoint = "http://loki-gateway.logging.svc.cluster.local/loki/api/v1/push"
         }
       }
 
@@ -113,7 +113,7 @@ alloy:
 
       loki.write "k8s" {
         endpoint {
-          url = "http://loki-distributed-gateway.logging.svc.cluster.local/loki/api/v1/push"
+          url = "http://loki-gateway.logging.svc.cluster.local/loki/api/v1/push"
         }
       }
 
