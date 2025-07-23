@@ -1,0 +1,132 @@
+# Copyright 2024 CS Group
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+
+overrides:
+  defaults:
+    metrics_generator:
+      processors:
+        - service-graphs
+        - span-metrics
+        - local-blocks
+
+compactor:
+  config:
+    compaction:
+      block_retention: 2160h #2160 hours in 90 days
+  nodeSelector:
+    node-role.kubernetes.io/infra: ""
+  extraArgs:
+    - -config.expand-env=true
+  extraEnvFrom:
+    - secretRef:
+        name: tempo-s3-credentials
+
+distributor:
+  nodeSelector:
+    node-role.kubernetes.io/infra: ""
+  extraArgs:
+    - -config.expand-env=true
+  extraEnvFrom:
+    - secretRef:
+        name: tempo-s3-credentials
+
+ingester:
+  persistence:
+    enabled: true
+    storageClass: csi-cinder-high-speed-retain
+  nodeSelector:
+    node-role.kubernetes.io/infra: ""
+  extraArgs:
+    - -config.expand-env=true
+  extraEnvFrom:
+    - secretRef:
+        name: tempo-s3-credentials
+
+metricsGenerator:
+  enabled: true
+  kind: StatefulSet
+  persistence:
+    enabled: true
+    storageClass: csi-cinder-high-speed-retain
+  config:
+    storage:
+      remote_write:
+        - url: "http://prometheus-kube-prometheus-prometheus.monitoring.svc.cluster.local:9090/prometheus/api/v1/write"
+    processor:
+      local_blocks:
+        filter_server_spans: false
+        flush_to_storage: true
+  nodeSelector:
+    node-role.kubernetes.io/infra: ""
+  extraArgs:
+    - -config.expand-env=true
+  extraEnvFrom:
+    - secretRef:
+        name: tempo-s3-credentials
+
+querier:
+  nodeSelector:
+    node-role.kubernetes.io/infra: ""
+  extraArgs:
+    - -config.expand-env=true
+  extraEnvFrom:
+    - secretRef:
+        name: tempo-s3-credentials
+
+queryFrontend:
+  query:
+    enabled: true
+  nodeSelector:
+    node-role.kubernetes.io/infra: ""
+  extraArgs:
+    - -config.expand-env=true
+  extraEnvFrom:
+    - secretRef:
+        name: tempo-s3-credentials
+
+traces:
+  otlp:
+    http:
+      enabled: true
+    grpc:
+      enabled: true
+
+server:
+  grpc_server_max_recv_msg_size: 41943040
+  grpc_server_max_send_msg_size: 41943040
+
+storage:
+  trace:
+    backend: s3
+    s3:
+      access_key: ${S3_ACCESS_KEY}
+      secret_key: ${S3_SECRET_KEY}
+      bucket: {{ grafanatempo.s3.bucket }}
+      endpoint: {{ s3.endpoint | regex_replace('http(.)?://', '') }}
+      region: {{ s3.region }}
+      insecure: false
+
+global_overrides:
+  max_bytes_per_trace: 50000000
+
+memcached:
+  nodeSelector:
+    node-role.kubernetes.io/infra: ""
+
+metaMonitoring:
+  serviceMonitor:
+    enabled: true
+    interval: {{ grafanatempo.metaMonitoring.serviceMonitor.interval}}
+    scrapeTimeout: {{ grafanatempo.metaMonitoring.serviceMonitor.scrapeTimeout }}

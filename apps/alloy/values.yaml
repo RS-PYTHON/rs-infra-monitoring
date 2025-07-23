@@ -87,7 +87,7 @@ alloy:
 
       otelcol.exporter.otlp "tempo" {
         client {
-          endpoint = "grafana-tempo-distributor.logging.svc.cluster.local:4317"
+          endpoint = "tempo-distributed-distributor.logging.svc.cluster.local:4317"
           tls {
             insecure = true
           }
