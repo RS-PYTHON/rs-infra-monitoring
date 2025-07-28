@@ -229,11 +229,12 @@ alloy:
         stage.cri { }
 
         stage.match {
-          selector = "{app=~\"rs-.+\"} |~ \".*trace_id.*\""
+
+          selector = "{app=~\"rs-.+\", content=~\".*trace_id.*\"}"
 
           stage.regex {
             expression = "^(?P<ts>\\S+) .+\\dm(?P<level>\\w+).+0m \\[(?P<otel>[^\\]]+)\\] \\((?P<logger>[^\\)]+)\\) (?P<msg>.*)$"
-            source     = "content"
+            source = "content"
           }
 
           stage.labels {
@@ -268,4 +269,3 @@ alloy:
           }
         }
       }
-
