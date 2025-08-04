@@ -260,7 +260,7 @@ alloy:
             }
           }
 
-          // The following is not working because {{ and }} are interpreted by jinja when using ansible
+          // The following is not working because the double curly backets are interpreted by jinja when using ansible
           // The workround with {% raw %} and {% endraw %} is not working here for unknown reason
           //stage.template {
           //  source   = "output_msg"
