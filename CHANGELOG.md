@@ -13,6 +13,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) 
 >- **Fixed** for any bug fixes.
 >- **Security** in case of vulnerabilities.
 
+## [0.2] - 2025-08-04
+
+### Changed
+
+- [RSPY-212](https://github.com/RS-PYTHON/rs-infra-monitoring/pull/15) : Deploy Grafana Alloy
+- [RSPY-461]https://github.com/RS-PYTHON/rs-infra-monitoring/pull/16 : Update Tempo
+- [RSPY-460]https://github.com/RS-PYTHON/rs-infra-monitoring/pull/17 : Update Loki
+
+### Fixed
+
+- [PR#14](https://github.com/RS-PYTHON/rs-infra-monitoring/pull/14) : Option namespaceScope set to false
+
 ## [0.2a15] - 2025-07-04
 
 ### Changed
