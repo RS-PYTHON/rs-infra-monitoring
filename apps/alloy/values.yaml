@@ -265,8 +265,8 @@ alloy:
             template = "{% raw %}{{`{{ .otel }}`}} {{`{{ .logger }}`}} {{`{{ .msg }}`}}{% endraw %}"
           }
 
-          stage.output {
-            source = "output_msg"
+          stage.label_drop {
+            values = [ "otel", "span_id", "msg", "logger" ]
           }
 
           stage.label_drop {
