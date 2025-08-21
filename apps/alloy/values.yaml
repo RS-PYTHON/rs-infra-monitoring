@@ -248,12 +248,13 @@ alloy:
 
           stage.template {
             source   = "service_name"
-            template = "{% raw %}{{`{{ replace .service_name \"-\" \".\" }}`}}{% endraw %}"
+            template = "{% raw %}{{`{{if .service_name}}`}}{{`{{.service_name}}`}}{{`{{else}}`}}{{`{{.app | replace \"-\" \".\"}}`}}{{`{{end}}`}}{% endraw %}"
+
           }
-          
+
           stage.labels {
             values = {
-              service_name  = "",
+              service_name = "",
               trace_sampled = "",
             }
           }
