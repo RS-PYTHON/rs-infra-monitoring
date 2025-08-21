@@ -218,28 +218,21 @@ alloy:
       // loki.process receives log entries from other Loki components, applies one or more processing stages,
       // and forwards the results to the list of receivers in the component's arguments.
       loki.process "pod_logs" {
-
         forward_to = [loki.write.k8s.receiver]
 
-        stage.match {
+        stage.cri {}
+        stage.decolorize {}
 
+        stage.match {
           selector = "{app=~\"rs-.+\"}"
 
-          stage.cri {}
-
-          stage.decolorize {}
-
           stage.regex {
-            expression = "^(?s)(?P<time>\\S+?) (?P<level>DEBUG|INFO|WARNING|ERROR|CRITICAL) \\[(?P<otel>.+?)\\] \\((?P<logger>.+?)\\) (?P<msg>.*)$"
-          }
-          
-          stage.drop {
-            source     = "otel"
-            expression = "^$"
+            expression = "(?:(?s)(?P<time>\\S+?) (?P<level>DEBUG|INFO|WARNING|ERROR|CRITICAL) \\[(?P<otel>.+?)\\] \\((?P<logger>.+?)\\) )?(?P<msg>.*)"
           }
 
           stage.labels {
             values = {
+              otel = "",
               level  = "",
               logger = "",
             }
@@ -253,6 +246,11 @@ alloy:
             source = "otel"
           }
 
+          stage.template {
+            source   = "service_name"
+            template = "{% raw %}{{`{{ replace .service_name \"-\" \".\" }}`}}{% endraw %}"
+          }
+          
           stage.labels {
             values = {
               service_name  = "",
@@ -265,8 +263,8 @@ alloy:
             template = "{% raw %}{{`{{ .otel }}`}} {{`{{ .logger }}`}} {{`{{ .msg }}`}}{% endraw %}"
           }
 
-          stage.label_drop {
-            values = [ "otel", "span_id", "msg", "logger" ]
+          stage.output {
+            source = "output_msg"
           }
 
           stage.label_drop {
