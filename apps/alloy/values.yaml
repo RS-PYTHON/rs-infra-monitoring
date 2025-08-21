@@ -218,28 +218,21 @@ alloy:
       // loki.process receives log entries from other Loki components, applies one or more processing stages,
       // and forwards the results to the list of receivers in the component's arguments.
       loki.process "pod_logs" {
-        //stage.static_labels {
-        //    values = {
-        //      cluster = "dev",
-        //    }
-        //}
-
         forward_to = [loki.write.k8s.receiver]
 
-        stage.match {
+        stage.cri {}
+        stage.decolorize {}
 
+        stage.match {
           selector = "{app=~\"rs-.+\"}"
 
-          stage.cri {}
-
-          stage.decolorize {}
-
           stage.regex {
-            expression = "^(?s)(?P<time>\\S+?) (?P<level>DEBUG|INFO|WARNING|ERROR|CRITICAL) \\[(?P<otel>.+?)\\] \\((?P<logger>.+?)\\) (?P<msg>.*)$"
+            expression = "(?:(?s)(?P<time>\\S+?) (?P<level>DEBUG|INFO|WARNING|ERROR|CRITICAL) \\[(?P<otel>.+?)\\] \\((?P<logger>.+?)\\) )?(?P<msg>.*)"
           }
 
           stage.labels {
             values = {
+              otel = "",
               level  = "",
               logger = "",
             }
@@ -253,40 +246,30 @@ alloy:
             source = "otel"
           }
 
+          stage.template {
+            source   = "service_name"
+            template = "{% raw %}{{`{{if .service_name}}`}}{{`{{.service_name}}`}}{{`{{else}}`}}{{`{{.app | replace \"-\" \".\"}}`}}{{`{{end}}`}}{% endraw %}"
+
+          }
+
           stage.labels {
             values = {
-              service_name  = "",
+              service_name = "",
               trace_sampled = "",
             }
           }
 
-          // The following is not working because the double curly backets are interpreted by jinja when using ansible
-          // The workround with {% raw %} and {% endraw %} is not working here for unknown reason
-          //stage.template {
-          //  source   = "output_msg"
-          //  template = "{% raw %}{{ .otel }} {{ .logger }} {{ .msg }}{% endraw %}"
-          //}
+          stage.template {
+            source   = "output_msg"
+            template = "{% raw %}{{`{{ .otel }}`}} {{`{{ .logger }}`}} {{`{{ .msg }}`}}{% endraw %}"
+          }
 
-          //stage.output {
-          //  source = "output_msg"
-          //}
+          stage.output {
+            source = "output_msg"
+          }
 
           stage.label_drop {
             values = [ "otel", "span_id", "msg", "logger" ]
           }
-        }
-
-        stage.match {
-            selector = "{app!~\"rs-.+\"}"
-            action   = "drop"
-
-            drop_counter_reason = "not_rs_traces"
-        }
-
-        stage.match {
-            selector = "{detected_lev=\"info\"}"
-            action   = "drop"
-
-            drop_counter_reason = "not_traces"
         }
       }
