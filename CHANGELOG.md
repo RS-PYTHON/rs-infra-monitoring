@@ -13,6 +13,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) 
 >- **Fixed** for any bug fixes.
 >- **Security** in case of vulnerabilities.
 
+## [1.0a1] - 2025-08-29
+
+### Fixed
+
+- [PR#20](https://github.com/RS-PYTHON/rs-infra-monitoring/pull/20) : Fix Grafana Alloy
+- [PR#22]https://github.com/RS-PYTHON/rs-infra-monitoring/pull/22) : Fix CI
+
 ## [0.2] - 2025-08-04
 
 ### Changed
