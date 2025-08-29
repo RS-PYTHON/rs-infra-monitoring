@@ -18,15 +18,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) 
 ### Fixed
 
 - [PR#20](https://github.com/RS-PYTHON/rs-infra-monitoring/pull/20) : Fix Grafana Alloy
-- [PR#22]https://github.com/RS-PYTHON/rs-infra-monitoring/pull/22) : Fix CI
+- [PR#22](https://github.com/RS-PYTHON/rs-infra-monitoring/pull/22) : Fix CI
+
+### Removed
+
+- [PR#23](https://github.com/RS-PYTHON/rs-infra-monitoring/pull/23) : Remove duplicated grafana crds from infra-core
 
 ## [0.2] - 2025-08-04
 
 ### Changed
 
 - [RSPY-212](https://github.com/RS-PYTHON/rs-infra-monitoring/pull/15) : Deploy Grafana Alloy
-- [RSPY-461]https://github.com/RS-PYTHON/rs-infra-monitoring/pull/16 : Update Tempo
-- [RSPY-460]https://github.com/RS-PYTHON/rs-infra-monitoring/pull/17 : Update Loki
+- [RSPY-461](https://github.com/RS-PYTHON/rs-infra-monitoring/pull/16 : Update Tempo
+- [RSPY-460](https://github.com/RS-PYTHON/rs-infra-monitoring/pull/17 : Update Loki
 
 ### Fixed
 
