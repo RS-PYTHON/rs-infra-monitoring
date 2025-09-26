@@ -14,19 +14,22 @@
 
 namespace: monitoring
 
-commonLabels:
-  app.kubernetes.io/instance: "{{ app_name }}"
-
 resources:
-  - grafana.yaml
-  - servicemonitor.yaml
-  - image-renderer.yaml
+- grafana.yaml
+- servicemonitor.yaml
+- image-renderer.yaml
 
 secretGenerator:
-- name: grafana-credentials
-  literals:
+- literals:
   - GF_SMTP_USER="{{ grafana.smtp_credentials.user }}"
   - GF_SMTP_PASSWORD="{{ grafana.smtp_credentials.password }}"
   - GRAFANA_CLIENT_SECRET="{{ grafana_oidc_client_secret }}"
+  name: grafana-credentials
   options:
     disableNameSuffixHash: true
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+labels:
+- includeSelectors: true
+  pairs:
+    app.kubernetes.io/instance: '{{ app_name }}'

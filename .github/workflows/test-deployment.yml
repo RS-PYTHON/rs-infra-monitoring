@@ -50,35 +50,74 @@ jobs:
 
           # Init conda
           ~/miniforge3/bin/conda init bash
-
-          # Create conda env with python
+          conda update -n base -c defaults conda
           conda create -y -n rspy python=3.11
 
           # Install Ansible, Terraform, Openstackclient
           conda run -n rspy conda install -y -c conda-forge ansible terraform python-openstackclient passlib boto3 kubernetes-helm kubernetes-client python-kubernetes
-          
+
           conda run -n rspy ansible-galaxy collection install openstack.cloud amazon.aws kubernetes.core
+
           ln -s /usr/share/miniconda/envs/rspy/bin/kubectl /usr/local/bin/kubectl
         shell: bash
       - name: Start minikube
         uses: medyagh/setup-minikube@latest
         with:
           start-args: '--profile cluster.local'
+          cpus: 4
           memory: 8000m
+      - name: "Configure cluster"
+        run: |
+          kubectl label node cluster.local node-role.kubernetes.io/infra=
+        shell: bash
+      - name: Deploy minio
+        run: |
+          # Minio for cloudnative pg and loki/tempo - https://github.com/minio/minio/tree/master/helm/minio#installing-the-chart-toy-setup
+          helm repo add minio https://charts.min.io/
+          helm repo update minio
+          helm install minio minio/minio --namespace minio --set mode=standalone --set replicas=1 --set persistence.enabled=false --set resources.requests.memory=512Mi --set rootUser=s3_access_key,rootPassword=s3_secret_key --set buckets[0].name=rs-cluster-psql,buckets[1].name=rs-cluster-velero,buckets[2].name=rs-cluster-loki-chunks,buckets[3].name=rs-cluster-loki-ruler,buckets[4].name=rs-cluster-tempo --create-namespace --wait
       - name: Generate inventory
         run: |
           cp -rfp inventory/sample inventory/mycluster
           mv inventory/mycluster/.env.template inventory/mycluster/.env
           mv inventory/mycluster/openrc.sh.template inventory/mycluster/openrc.sh
           sed -i 's!<changeme_with_full_path>/miniforge3/envs/rspy!/usr/share/miniconda/envs/rspy!g' inventory/mycluster/hosts.yaml
+          sed -i 's!https://s3.gra.io.cloud.ovh.net!http://minio.minio.svc.cluster.local:9000!' inventory/mycluster/host_vars/setup/main.yaml
           conda run -n rspy --no-capture-output env PYTHONUNBUFFERED=1 ANSIBLE_FORCE_COLOR=1 ansible-playbook registry.yaml -i inventory/mycluster/hosts.yaml -e ci_mode=true
           conda run -n rspy --no-capture-output env PYTHONUNBUFFERED=1 ANSIBLE_FORCE_COLOR=1 ansible-playbook generate_inventory.yaml -i inventory/mycluster/hosts.yaml
         shell: bash
-      - name: Deploy the core apps (check)
+      - name: Deploy the core apps (for real)
         run: |
-          conda run -n rspy --no-capture-output env PYTHONUNBUFFERED=1 ANSIBLE_FORCE_COLOR=1 ansible-playbook --check apps.yaml -i inventory/mycluster/hosts.yaml -e private_registry=true
+          sed -i 's!cinder.csi.openstack.org!k8s.io/minikube-hostpath!g' apps/00-storage-class/sc-retain.yaml
+          sed -i 's!instances: 3!instances: 1!g' apps/03-cloudnative-pg/cluster.yaml
+          sed -i -e 's!https://iam.{{ platform_domain_name }}!http://keycloak-service.iam.svc.cluster.local:8080!g' -e 's!insecure_oidc_skip_issuer_verification="false"!insecure_oidc_skip_issuer_verification="true"!g' apps/oauth2-proxy/values.yaml
+
+          conda run -n rspy --no-capture-output env PYTHONUNBUFFERED=1 ANSIBLE_FORCE_COLOR=1 ansible-playbook apps.yaml -i inventory/mycluster/hosts.yaml
         shell: bash
       - name: Deploy the monitoring apps (check)
         run: |
           conda run -n rspy --no-capture-output env PYTHONUNBUFFERED=1 ANSIBLE_FORCE_COLOR=1 ansible-playbook --check apps.yaml -i inventory/mycluster/hosts.yaml -e '{"package_paths": ["./rs-infra-monitoring/apps/"]}' -e private_registry=true
+        shell: bash
+      - name: Deploy the monitoring apps (for real)
+        run: |
+          sed -i 's!debug: false!debug: true!g' roles/app-installer/defaults/main.yaml
+          # Lower the number of loki replicas
+          sed -i \
+            -e 's!max_concurrent: 4!max_concurrent: 1!g' \
+            -e 's!replicas: 3!replicas: 1!g' \
+            -e 's!replicas: 2!replicas: 1!g' \
+            -e 's!maxUnavailable: 2!maxUnavailable: 0!g' \
+            -e 's!maxUnavailable: 1!maxUnavailable: 0!g' \
+            rs-infra-monitoring/apps/loki/values.yaml
+          # Disable strict podAntiAffinity loki directives that prevent to deploy on a single node
+          # see https://github.com/grafana/helm-charts/issues/2709#issuecomment-2839130975
+          for path in $(yq eval '.. | select(has("affinity")) | path | join(".")' rs-infra-monitoring/apps/loki/values.yaml); do
+            yq eval -i ".$path.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution += [{
+              \"labelSelector\": {\"matchLabels\": {\"app.kubernetes.io/component\": \"not-read\"}},
+              \"topologyKey\": \"kubernetes.io/hostname\"
+            }]" rs-infra-monitoring/apps/loki/values.yaml
+          done
+          sed -i 's!insecure: false!insecure: true!g' rs-infra-monitoring/apps/tempo-distributed/values.yaml
+
+          conda run -n rspy --no-capture-output env PYTHONUNBUFFERED=1 ANSIBLE_FORCE_COLOR=1 ansible-playbook apps.yaml -i inventory/mycluster/hosts.yaml -e '{"package_paths": ["./rs-infra-monitoring/apps/"]}'
         shell: bash

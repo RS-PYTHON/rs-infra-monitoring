@@ -12,13 +12,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-#commonLabels:
-#  app.kubernetes.io/instance: "{{ app_name }}"
-
 helmCharts:
 - name: kube-prometheus-stack
-  repo: https://prometheus-community.github.io/helm-charts
-  releaseName: "{{ app_name }}"
-  version: 58.0.0
   namespace: monitoring
+  releaseName: '{{ app_name }}'
+  repo: https://prometheus-community.github.io/helm-charts
   valuesFile: values.yaml
+  version: 58.0.0
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+labels:
+- includeSelectors: true
+  pairs:
+    app.kubernetes.io/instance: '{{ app_name }}'
