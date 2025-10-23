@@ -63,7 +63,7 @@ jobs:
       - name: Start minikube
         uses: medyagh/setup-minikube@latest
         with:
-          addons: 'metallb'
+          addons: 'metallb,metrics-server'
           cpus: 4
           memory: 8000m
       - name: "Configure cluster labels, IP and DNS (host + CoreDNS)"
@@ -98,4 +98,9 @@ jobs:
           sed -i 's!debug: false!debug: true!g' roles/app-installer/defaults/main.yaml
           ./rs-infra-monitoring/.github/common/resources/configure-minikube-deployment.sh
           conda run -n rspy --no-capture-output env PYTHONUNBUFFERED=1 ANSIBLE_FORCE_COLOR=1 ansible-playbook apps.yaml -i inventory/mycluster/hosts.yaml -e '{"package_paths": ["./rs-infra-monitoring/apps/"]}'
+        shell: bash
+      - name: 🩺 Kubernetes failure diagnostics
+        if: failure()
+        run: |
+          .github/common/resources/minikube-diagnostics.sh
         shell: bash

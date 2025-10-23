@@ -15,20 +15,27 @@
 
 set -euo pipefail
 
+APPS=rs-infra-monitoring/apps
+
+# Lower the CPU requests
+sed -i 's!cpu: 200m!cpu: 1m!g' "${APPS}/grafana/grafana.yaml"
+sed -i 's!cpu: 50m!cpu: 1m!g' "${APPS}/grafana/image-renderer.yaml"
+sed -i 's!cpu: 500m!cpu: 1m!g' "${APPS}/prometheus/values.yaml"
 # Lower the number of loki replicas
 sed -i \
--e 's!max_concurrent: 4!max_concurrent: 1!g' \
--e 's!replicas: 3!replicas: 1!g' \
--e 's!replicas: 2!replicas: 1!g' \
--e 's!maxUnavailable: 2!maxUnavailable: 0!g' \
--e 's!maxUnavailable: 1!maxUnavailable: 0!g' \
-rs-infra-monitoring/apps/loki/values.yaml
+    -e 's!max_concurrent: 4!max_concurrent: 1!g' \
+    -e 's!replicas: 3!replicas: 1!g' \
+    -e 's!replicas: 2!replicas: 1!g' \
+    -e 's!maxUnavailable: 2!maxUnavailable: 0!g' \
+    -e 's!maxUnavailable: 1!maxUnavailable: 0!g' \
+    "${APPS}/loki/values.yaml"
 # Disable strict podAntiAffinity loki directives that prevent to deploy on a single node
 # see https://github.com/grafana/helm-charts/issues/2709#issuecomment-2839130975
-for path in $(yq eval '.. | select(has("affinity")) | path | join(".")' rs-infra-monitoring/apps/loki/values.yaml); do
-yq eval -i ".$path.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution += [{
-    \"labelSelector\": {\"matchLabels\": {\"app.kubernetes.io/component\": \"not-read\"}},
-    \"topologyKey\": \"kubernetes.io/hostname\"
-}]" rs-infra-monitoring/apps/loki/values.yaml
+for path in $(yq eval '.. | select(has("affinity")) | path | join(".")' "${APPS}/loki/values.yaml"); do
+    yq eval -i ".$path.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution += [{
+        \"labelSelector\": {\"matchLabels\": {\"app.kubernetes.io/component\": \"not-read\"}},
+        \"topologyKey\": \"kubernetes.io/hostname\"
+    }]" "${APPS}/loki/values.yaml"
 done
-sed -i 's!insecure: false!insecure: true!g' rs-infra-monitoring/apps/tempo-distributed/values.yaml
+# Disable tempo secure mode
+sed -i 's!insecure: false!insecure: true!g' "${APPS}/tempo-distributed/values.yaml"
