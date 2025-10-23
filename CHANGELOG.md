@@ -13,6 +13,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) 
 >- **Fixed** for any bug fixes.
 >- **Security** in case of vulnerabilities.
 
+## [1.0a3] - 2025-10-23
+
+### Changed
+
+- [PR#27](https://github.com/RS-PYTHON/rs-infra-monitoring/pull/27) : Adapt to latest changes in rs-infra-core #27 
+- [PR#28](https://github.com/RS-PYTHON/rs-infra-monitoring/pull/28) : Externalize deployment steps to a reusable script #28 
+
+### Fixed
+
+- [PR#26](https://github.com/RS-PYTHON/rs-infra-monitoring/pull/26) : Fix prometheus svc
+
 ## [1.0a2] - 2025-09-29
 
 ### Added
