@@ -40,25 +40,18 @@ jobs:
         with:
           path: rs-infra-monitoring
           ref: ${{ github.ref }}
-      - name: Install requirements
+      - name: Cache Miniforge and Conda env
+        id: cache-conda
+        uses: actions/cache@v4
+        with:
+          path: ~/miniforge3
+          key: conda-${{ runner.os }}-${{ hashFiles('.github/common/resources/install-requirements.sh') }}
+          restore-keys: |
+            conda-${{ runner.os }}-
+      - name: Install requirements (if cache missed)
+        if: steps.cache-conda.outputs.cache-hit != 'true'
         run: |
-          # Install miniforge
-          mkdir -p ~/miniforge3
-          wget -q "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh" -O ~/miniforge3/miniforge.sh
-          bash ~/miniforge3/miniforge.sh -b -u -p ~/miniforge3
-          rm -f ~/miniforge3/miniforge.sh
-
-          # Init conda
-          ~/miniforge3/bin/conda init bash
-          conda update -n base -c defaults conda
-          conda create -y -n rspy python=3.11
-
-          # Install Ansible, Terraform, Openstackclient
-          conda run -n rspy conda install -y -c conda-forge ansible terraform python-openstackclient passlib boto3 kubernetes-helm kubernetes-client python-kubernetes
-
-          conda run -n rspy ansible-galaxy collection install openstack.cloud amazon.aws kubernetes.core
-
-          ln -s /usr/share/miniconda/envs/rspy/bin/kubectl /usr/local/bin/kubectl
+          .github/common/resources/install-requirements.sh
         shell: bash
       - name: Start minikube
         uses: medyagh/setup-minikube@latest
