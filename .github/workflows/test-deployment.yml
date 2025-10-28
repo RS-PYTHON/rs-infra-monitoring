@@ -44,7 +44,9 @@ jobs:
         id: cache-conda
         uses: actions/cache@v4
         with:
-          path: ~/miniforge3
+          path: |
+            ~/miniforge3
+            /usr/share/miniconda
           key: conda-${{ runner.os }}-${{ hashFiles('.github/common/resources/install-requirements.sh') }}
           restore-keys: |
             conda-${{ runner.os }}-
@@ -68,7 +70,7 @@ jobs:
           # Minio for cloudnative pg and loki/tempo - https://github.com/minio/minio/tree/master/helm/minio#installing-the-chart-toy-setup
           helm repo add minio https://charts.min.io/
           helm repo update minio
-          helm install minio minio/minio --namespace minio --set mode=standalone --set replicas=1 --set persistence.enabled=false --set resources.requests.memory=512Mi --set rootUser=s3_access_key,rootPassword=s3_secret_key --set buckets[0].name=rs-cluster-psql,buckets[1].name=rs-cluster-velero,buckets[2].name=rs-cluster-loki-chunks,buckets[3].name=rs-cluster-loki-ruler,buckets[4].name=rs-cluster-tempo --create-namespace --wait
+          helm install minio minio/minio --namespace minio --set mode=standalone --set replicas=1 --set persistence.enabled=false --set resources.requests.memory=128Mi --set rootUser=s3_access_key,rootPassword=s3_secret_key --set buckets[0].name=rs-cluster-psql,buckets[1].name=rs-cluster-velero,buckets[2].name=rs-cluster-loki-chunks,buckets[3].name=rs-cluster-loki-ruler,buckets[4].name=rs-cluster-tempo --create-namespace --wait
       - name: Generate inventory
         run: |
           .github/common/resources/configure-inventory.sh

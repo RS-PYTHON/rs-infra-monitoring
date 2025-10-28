@@ -52,7 +52,12 @@ loki:
 deploymentMode: Distributed
 
 ingester:
+  # -- Number of replicas for the ingester
   replicas: 3
+  # -- Resource requests and limits for the ingester
+  resources: {}
+  # -- Pod Disruption Budget maxUnavailable
+  maxUnavailable: 1
   zoneAwareReplication:
     enabled: false
   affinity:
@@ -64,7 +69,11 @@ ingester:
               operator: Exists
 
 querier:
+  # -- Number of replicas for the querier
   replicas: 3
+  # -- Resource requests and limits for the querier
+  resources: {}
+  # -- Pod Disruption Budget maxUnavailable
   maxUnavailable: 2
   affinity:
     nodeAffinity:
@@ -75,7 +84,11 @@ querier:
               operator: Exists
 
 queryFrontend:
+  # -- Number of replicas for the query-frontend
   replicas: 2
+  # -- Resource requests and limits for the query-frontend
+  resources: {}
+  # -- Pod Disruption Budget maxUnavailable
   maxUnavailable: 1
   affinity:
     nodeAffinity:
@@ -86,7 +99,14 @@ queryFrontend:
               operator: Exists
 
 queryScheduler:
+  # -- Number of replicas for the query-scheduler.
+  # It should be lower than `-querier.max-concurrent` to avoid generating back-pressure in queriers;
+  # it's also recommended that this value evenly divides the latter
   replicas: 2
+  # -- Resource requests and limits for the query-scheduler
+  resources: {}
+  # -- Pod Disruption Budget maxUnavailable
+  maxUnavailable: 1
   affinity:
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
@@ -96,7 +116,11 @@ queryScheduler:
               operator: Exists
 
 distributor:
+  # -- Number of replicas for the distributor
   replicas: 3
+  # -- Resource requests and limits for the distributor
+  resources: {}
+  # -- Pod Disruption Budget maxUnavailable
   maxUnavailable: 2
   affinity:
     nodeAffinity:
@@ -107,7 +131,10 @@ distributor:
               operator: Exists
 
 compactor:
+  # -- Number of replicas for the compactor
   replicas: 1
+  # -- Resource requests and limits for the compactor
+  resources: {}
   affinity:
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
@@ -117,7 +144,11 @@ compactor:
               operator: Exists
 
 indexGateway:
+  # -- Number of replicas for the index-gateway
   replicas: 2
+  # -- Resource requests and limits for the index-gateway
+  resources: {}
+  # -- Pod Disruption Budget maxUnavailable
   maxUnavailable: 1
   affinity:
     nodeAffinity:
@@ -128,6 +159,17 @@ indexGateway:
               operator: Exists
 
 chunksCache:
+  # -- Total number of chunks-cache replicas
+  replicas: 1
+  # -- Amount of memory allocated to chunks-cache for object storage (in MB).
+  allocatedMemory: 8192
+  # -- Max memory to use for cache write back
+  writebackSizeLimit: 500MB
+  # By default a safe memory limit will be requested based on allocatedMemory value (floor (* 1.2 allocatedMemory)).
+  resources:
+    requests:
+      cpu: 500m
+      memory: 9830Mi
   affinity:
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
@@ -137,6 +179,8 @@ chunksCache:
               operator: Exists
 
 gateway:
+  # -- Number of replicas for the gateway
+  replicas: 1
   affinity:
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
@@ -146,6 +190,18 @@ gateway:
               operator: Exists
 
 resultsCache:
+  # -- Total number of results-cache replicas
+  replicas: 1
+  # -- Amount of memory allocated to results-cache for object storage (in MB).
+  allocatedMemory: 1024
+  # -- Max memory to use for cache write back
+  writebackSizeLimit: 500MB
+  # -- Resource requests and limits for the results-cache
+  # By default a safe memory limit will be requested based on allocatedMemory value (floor (* 1.2 allocatedMemory)).
+  resources:
+    requests:
+      cpu: 500m
+      memory: 1229Mi
   affinity:
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
