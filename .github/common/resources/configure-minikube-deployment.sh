@@ -18,16 +18,22 @@ set -euo pipefail
 APPS=rs-infra-monitoring/apps
 
 # Lower the CPU requests
-sed -i 's!cpu: 200m!cpu: 1m!g' "${APPS}/grafana/grafana.yaml"
-sed -i 's!cpu: 50m!cpu: 1m!g' "${APPS}/grafana/image-renderer.yaml"
-sed -i 's!cpu: 500m!cpu: 1m!g' "${APPS}/prometheus/values.yaml"
-# Lower the number of loki replicas
+sed -i -e 's!cpu: 200m!cpu: 1m!g' -e 's!memory: 256Mi!memory: 128Mi!g' "${APPS}/grafana/grafana.yaml"
+sed -i -e 's!cpu: 50m!cpu: 1m!g' -e 's!memory: 128Mi!memory: 64Mi!g' "${APPS}/grafana/image-renderer.yaml"
+sed -i -e 's!cpu: 500m!cpu: 1m!g' -e 's!memory: 512Mi!memory: 128Mi!g' "${APPS}/prometheus/values.yaml"
+# Lower the requests and number of loki replicas
 sed -i \
     -e 's!max_concurrent: 4!max_concurrent: 1!g' \
     -e 's!replicas: 3!replicas: 1!g' \
     -e 's!replicas: 2!replicas: 1!g' \
     -e 's!maxUnavailable: 2!maxUnavailable: 0!g' \
     -e 's!maxUnavailable: 1!maxUnavailable: 0!g' \
+    -e 's!cpu: 500m!cpu: 5m!g' \
+    -e 's!allocatedMemory: 8192!allocatedMemory: 100!g' \
+    -e 's!allocatedMemory: 1024!allocatedMemory: 100!g' \
+    -e 's!memory: 1229Mi!memory: 120Mi!g' \
+    -e 's!memory: 9830Mi!memory: 120Mi!g' \
+    -e 's!writebackSizeLimit: 500MB!writebackSizeLimit: 50MB!g' \
     "${APPS}/loki/values.yaml"
 # Disable strict podAntiAffinity loki directives that prevent to deploy on a single node
 # see https://github.com/grafana/helm-charts/issues/2709#issuecomment-2839130975
