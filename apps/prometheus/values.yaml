@@ -26,10 +26,11 @@ prometheusOperator:
 
 defaultRules:
   rules:
-    etcd: false ## CHANGED
-    kubeControllerManager: false ## CHANGED
-    kubeSchedulerAlerting: false ## CHANGED
-    kubeSchedulerRecording: false ## CHANGED
+    etcd: false
+    kubeControllerManager: false
+    kubeProxy: false
+    kubeSchedulerAlerting: false
+    kubeSchedulerRecording: false
 
 prometheus:
   ingress:
