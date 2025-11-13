@@ -24,6 +24,13 @@ prometheusOperator:
             - key: "node-role.kubernetes.io/infra"
               operator: Exists
 
+defaultRules:
+  rules:
+    etcd: false ## CHANGED
+    kubeControllerManager: false ## CHANGED
+    kubeSchedulerAlerting: false ## CHANGED
+    kubeSchedulerRecording: false ## CHANGED
+
 prometheus:
   ingress:
     enabled: true
