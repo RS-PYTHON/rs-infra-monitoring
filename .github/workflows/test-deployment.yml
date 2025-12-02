@@ -48,8 +48,6 @@ jobs:
             ~/miniforge3
             /usr/share/miniconda
           key: conda-${{ runner.os }}-${{ hashFiles('.github/common/resources/install-requirements.sh') }}
-          restore-keys: |
-            conda-${{ runner.os }}-
       - name: Install requirements (if cache missed)
         if: steps.cache-conda.outputs.cache-hit != 'true'
         run: |
