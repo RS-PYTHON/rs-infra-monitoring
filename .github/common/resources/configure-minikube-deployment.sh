@@ -15,7 +15,7 @@
 
 set -euo pipefail
 
-APPS=rs-infra-monitoring/apps
+APPS="${APPS_DIR:-rs-infra-monitoring/apps}"
 
 # Lower the CPU requests
 sed -i -e 's!cpu: 200m!cpu: 1m!g' -e 's!memory: 256Mi!memory: 128Mi!g' "${APPS}/grafana/grafana.yaml"
