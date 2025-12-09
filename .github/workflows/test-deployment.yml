@@ -31,28 +31,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           repository: RS-PYTHON/rs-infra-core
           submodules: recursive
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           path: rs-infra-monitoring
           ref: ${{ github.ref }}
-      - name: Cache Miniforge and Conda env
-        id: cache-conda
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/miniforge3
-            /usr/share/miniconda
-          key: conda-${{ runner.os }}-${{ hashFiles('.github/common/resources/install-requirements.sh') }}
-      - name: Install requirements (if cache missed)
-        if: steps.cache-conda.outputs.cache-hit != 'true'
-        run: |
-          .github/common/resources/install-requirements.sh
-        shell: bash
+      - name: Install requirements
+        run: .github/common/resources/install-requirements.sh
       - name: Start minikube
         uses: medyagh/setup-minikube@latest
         with:
