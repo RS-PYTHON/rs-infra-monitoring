@@ -13,6 +13,27 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) 
 >- **Fixed** for any bug fixes.
 >- **Security** in case of vulnerabilities.
 
+## [1.0a5] - 2025-12-18
+
+### Changed
+
+- [PR#34](https://github.com/RS-PYTHON/rs-infra-monitoring/pull/34) : Improve CICD robustness
+- [PR#35](https://github.com/RS-PYTHON/rs-infra-monitoring/pull/35) : allow to define APPS_DIR outside of github action scripts
+- [PR#36](https://github.com/RS-PYTHON/rs-infra-monitoring/pull/36) : Remove caches, does not work
+
+
+## [1.0a4] - 2025-11-20
+
+### Changed
+
+- [PR#30](https://github.com/RS-PYTHON/rs-infra-monitoring/pull/30) : Lower CPU requests with minikube #30 
+- [PR#31](https://github.com/RS-PYTHON/rs-infra-monitoring/pull/31) : Cache Miniforge and Conda env to speedup cicd #31 
+- [PR#32](https://github.com/RS-PYTHON/rs-infra-monitoring/pull/32) : Reduce allocated requests to minio, loki and prometheus in ci/cd #32 
+
+### Fixed
+
+- [PR#33](https://github.com/RS-PYTHON/rs-infra-monitoring/pull/33) : fix prometheus alerting
+
 ## [1.0a3] - 2025-10-23
 
 ### Changed
