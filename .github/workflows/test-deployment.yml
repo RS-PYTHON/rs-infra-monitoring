@@ -30,12 +30,25 @@ jobs:
     if: github.actor != 'dependabot[bot]' # ignore pull requests by github bot
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
+      - name: Get current branch name
+        id: vars
+        run: echo "branch_name=${{ github.head_ref }}" >> $GITHUB_OUTPUT
+      - name: Check if branch exists in rs-infra-core
+        id: check_branch
+        run: |
+          BRANCH=${{ steps.vars.outputs.branch_name }}
+          if git ls-remote --heads https://github.com/RS-PYTHON/rs-infra-core.git $BRANCH | grep -q $BRANCH; then
+            echo "branch_to_use=$BRANCH" >> $GITHUB_OUTPUT
+          else
+            echo "branch_to_use=" >> $GITHUB_OUTPUT  # Leave empty to use default
+          fi
+        shell: bash
+      - name: Checkout infra-core repository
         uses: actions/checkout@v6
         with:
           repository: RS-PYTHON/rs-infra-core
-          submodules: recursive
-      - name: Checkout repository
+          ref: ${{ steps.check_branch.outputs.branch_to_use }}
+      - name: Checkout infra-monitoring repository
         uses: actions/checkout@v6
         with:
           path: rs-infra-monitoring
@@ -52,12 +65,8 @@ jobs:
         run: |
           .github/common/resources/configure-cluster.sh "node-role.kubernetes.io/infra=" "iam kube monitoring oauth2-proxy"
         shell: bash
-      - name: Deploy minio
-        run: |
-          # Minio for cloudnative pg and loki/tempo - https://github.com/minio/minio/tree/master/helm/minio#installing-the-chart-toy-setup
-          helm repo add minio https://charts.min.io/
-          helm repo update minio
-          helm install minio minio/minio --namespace minio --set mode=standalone --set replicas=1 --set persistence.enabled=false --set resources.requests.memory=128Mi --set rootUser=s3_access_key,rootPassword=s3_secret_key --set buckets[0].name=rs-cluster-psql,buckets[1].name=rs-cluster-velero,buckets[2].name=rs-cluster-loki-chunks,buckets[3].name=rs-cluster-loki-ruler,buckets[4].name=rs-cluster-tempo --create-namespace --wait
+      - name: Deploy seaweedfs
+        run: .github/common/resources/deploy-seaweedfs.sh rs-cluster-psql,rs-cluster-velero,rs-cluster-loki-chunks,rs-cluster-loki-ruler,rs-cluster-tempo
       - name: Generate inventory
         run: |
           .github/common/resources/configure-inventory.sh
