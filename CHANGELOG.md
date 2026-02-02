@@ -13,6 +13,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) 
 >- **Fixed** for any bug fixes.
 >- **Security** in case of vulnerabilities.
 
+## [1.0a6] - 2026-02-02
+
+### Changed
+
+- [PR#38](https://github.com/RS-PYTHON/rs-infra-monitoring/pull/38) : Replace minio by seaweedfs
+
 ## [1.0a5] - 2025-12-18
 
 ### Changed
