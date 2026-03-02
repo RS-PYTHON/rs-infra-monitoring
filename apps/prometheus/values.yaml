@@ -139,3 +139,15 @@ prometheus:
         scrape_interval: 30s
         static_configs:
             - targets: ["neuvector-prometheus-exporter.security.svc.cluster.local:8068"]
+
+kubeEtcd:
+  enabled: false
+
+kubeControllerManager:
+  enabled: false
+
+kubeScheduler:
+  enabled: false
+
+kubeProxy:
+  enabled: false

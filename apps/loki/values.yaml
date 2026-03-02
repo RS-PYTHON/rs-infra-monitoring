@@ -238,3 +238,7 @@ write:
 
 singleBinary:
   replicas: 0
+
+ruler:
+  # -- The ruler component is optional and can be disabled if desired.
+  enabled: false
