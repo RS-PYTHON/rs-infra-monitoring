@@ -13,6 +13,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) 
 >- **Fixed** for any bug fixes.
 >- **Security** in case of vulnerabilities.
 
+## [1.0a7] - 2026-03-02
+
+### Changed
+
+- [PR#41](https://github.com/RS-PYTHON/rs-infra-monitoring/pull/41) : Split NOTICE.md per infra repository
+- [PR#43](https://github.com/RS-PYTHON/rs-infra-monitoring/pull/43) : CI: allow to specify rs-infra-core ref to use
+
+### Fixed
+
+- [RSPY-924](https://github.com/RS-PYTHON/rs-infra-monitoring/pull/42) : Service Without Pod fix for prometheus and loki
+
 ## [1.0a6] - 2026-02-02
 
 ### Changed
