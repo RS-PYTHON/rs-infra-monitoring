@@ -42,15 +42,15 @@ Below are all the FOSS (Free and open-source software) used and their respective
 
 - Tempo
   - Helm chart
-    - Version: 1.46.0
-    - License: [Apache License 2.0](https://github.com/grafana-community/helm-charts/blob/tempo-distributed-1.46.0/LICENSE)
-    - Source: <https://github.com/grafana-community/helm-charts/tree/tempo-distributed-1.46.0/charts/tempo-distributed>
+    - Version: 1.47.3
+    - License: [Apache License 2.0](https://github.com/grafana-community/helm-charts/blob/tempo-distributed-1.47.3/LICENSE)
+    - Source: <https://github.com/grafana-community/helm-charts/tree/tempo-distributed-1.47.3/charts/tempo-distributed>
     - Copyright: Copyright The Tempo Authors. [Authors and Contributors](https://github.com/grafana/helm-charts/graphs/contributors)
   - Container image(s)
-    - docker.io/grafana/tempo:2.8.1
-      - License: [GNU Affero General Public License v3.0](https://github.com/grafana/tempo/blob/v2.8.1/LICENSE)
-    - docker.io/grafana/tempo-query:2.8.1
-      - License: [GNU Affero General Public License v3.0](https://github.com/grafana/tempo/blob/v2.8.1/LICENSE)
+    - docker.io/grafana/tempo:2.8.2
+      - License: [GNU Affero General Public License v3.0](https://github.com/grafana/tempo/blob/v2.8.2/LICENSE)
+    - docker.io/grafana/tempo-query:2.8.2
+      - License: [GNU Affero General Public License v3.0](https://github.com/grafana/tempo/blob/v2.8.2/LICENSE)
     - docker.io/library/memcached:1.6.33-alpine
       - License: [BSD 3-Clause License](https://github.com/memcached/memcached/blob/1.6.33/LICENSE)
 
