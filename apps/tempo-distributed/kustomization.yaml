@@ -25,7 +25,7 @@ helmCharts:
   namespace: logging
   repo: https://grafana.github.io/helm-charts/
   releaseName: "{{ app_name }}"
-  version: 1.46.0
+  version: 1.46.1
   valuesFile: values.yaml
 
 resources:
