@@ -34,6 +34,8 @@ compactor:
         name: tempo-s3-credentials
 
 distributor:
+  config:
+    max_attribute_bytes: 4096
   nodeSelector:
     node-role.kubernetes.io/infra: ""
   extraArgs:

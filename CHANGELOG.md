@@ -13,6 +13,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) 
 >- **Fixed** for any bug fixes.
 >- **Security** in case of vulnerabilities.
 
+## Unreleased
+
+### Changed
+
+- Bumped tempo helm chart from 1.46.0 to 1.47.3 to add max_attribute_bytes
+
 ## [1.0a7] - 2026-03-02
 
 ### Changed
