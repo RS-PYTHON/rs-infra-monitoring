@@ -15,9 +15,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) 
 
 ## Unreleased
 
+## [1.0a8] - 2026-03-30
+
 ### Changed
 
-- Bumped tempo helm chart from 1.46.0 to 1.47.3 to add max_attribute_bytes
+- [PR#46](https://github.com/RS-PYTHON/rs-infra-monitoring/pull/46) : Bumped tempo helm chart from 1.46.0 to 1.47.3 to add max_attribute_bytes
 
 ## [1.0a7] - 2026-03-02
 
