@@ -51,9 +51,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) 
 
 ### Changed
 
-- [PR#30](https://github.com/RS-PYTHON/rs-infra-monitoring/pull/30) : Lower CPU requests with minikube #30 
-- [PR#31](https://github.com/RS-PYTHON/rs-infra-monitoring/pull/31) : Cache Miniforge and Conda env to speedup cicd #31 
-- [PR#32](https://github.com/RS-PYTHON/rs-infra-monitoring/pull/32) : Reduce allocated requests to minio, loki and prometheus in ci/cd #32 
+- [PR#30](https://github.com/RS-PYTHON/rs-infra-monitoring/pull/30) : Lower CPU requests with minikube #30
+- [PR#31](https://github.com/RS-PYTHON/rs-infra-monitoring/pull/31) : Cache Miniforge and Conda env to speedup cicd #31
+- [PR#32](https://github.com/RS-PYTHON/rs-infra-monitoring/pull/32) : Reduce allocated requests to minio, loki and prometheus in ci/cd #32
 
 ### Fixed
 
@@ -63,8 +63,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) 
 
 ### Changed
 
-- [PR#27](https://github.com/RS-PYTHON/rs-infra-monitoring/pull/27) : Adapt to latest changes in rs-infra-core #27 
-- [PR#28](https://github.com/RS-PYTHON/rs-infra-monitoring/pull/28) : Externalize deployment steps to a reusable script #28 
+- [PR#27](https://github.com/RS-PYTHON/rs-infra-monitoring/pull/27) : Adapt to latest changes in rs-infra-core #27
+- [PR#28](https://github.com/RS-PYTHON/rs-infra-monitoring/pull/28) : Externalize deployment steps to a reusable script #28
 
 ### Fixed
 
