@@ -15,6 +15,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) 
 
 ## Unreleased
 
+## [1.0a9] - 2026-04-24
+
+### Changed
+
+- [RSPY-995](https://github.com/RS-PYTHON/rs-infra-monitoring/pull/48) : run sonar from project root
+
 ## [1.0a8] - 2026-03-30
 
 ### Changed
