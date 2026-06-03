@@ -15,6 +15,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) 
 
 ## Unreleased
 
+## [1.0a10] - 2026-06-03
+
+### Changed
+
+- header license
+
 ## [1.0a9] - 2026-04-24
 
 ### Changed
