@@ -21,6 +21,7 @@ APPS="${APPS_DIR:-rs-infra-monitoring/apps}"
 sed -i -e 's!cpu: 200m!cpu: 1m!g' -e 's!memory: 256Mi!memory: 128Mi!g' "${APPS}/grafana/grafana.yaml"
 sed -i -e 's!cpu: 50m!cpu: 1m!g' -e 's!memory: 128Mi!memory: 64Mi!g' "${APPS}/grafana/image-renderer.yaml"
 sed -i -e 's!cpu: 500m!cpu: 1m!g' -e 's!memory: 512Mi!memory: 128Mi!g' "${APPS}/prometheus/values.yaml"
+
 # Lower the requests and number of loki replicas
 sed -i \
     -e 's!max_concurrent: 4!max_concurrent: 1!g' \
@@ -35,6 +36,7 @@ sed -i \
     -e 's!memory: 9830Mi!memory: 120Mi!g' \
     -e 's!writebackSizeLimit: 500MB!writebackSizeLimit: 50MB!g' \
     "${APPS}/loki/values.yaml"
+
 # Disable strict podAntiAffinity loki directives that prevent to deploy on a single node
 # see https://github.com/grafana/helm-charts/issues/2709#issuecomment-2839130975
 for path in $(yq eval '.. | select(has("affinity")) | path | join(".")' "${APPS}/loki/values.yaml"); do
@@ -43,5 +45,10 @@ for path in $(yq eval '.. | select(has("affinity")) | path | join(".")' "${APPS}
         \"topologyKey\": \"kubernetes.io/hostname\"
     }]" "${APPS}/loki/values.yaml"
 done
+
 # Disable tempo secure mode
 sed -i 's!insecure: false!insecure: true!g' "${APPS}/tempo-distributed/values.yaml"
+
+# Lower tempo replicas
+yq -i '.ingester.replicas = 1' "${APPS}/tempo-distributed/values.yaml"
+yq -i '.ingester.config.replication_factor = 1' "${APPS}/tempo-distributed/values.yaml"
