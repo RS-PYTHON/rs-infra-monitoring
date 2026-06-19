@@ -15,6 +15,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) 
 
 ## Unreleased
 
+## [1.0a11] - 2026-06-19
+
+### Changed
+
+- [PR#51](https://github.com/RS-PYTHON/rs-infra-monitoring/pull/51) : ci: lower tempo ingester replicas
+- [PR#52](https://github.com/RS-PYTHON/rs-infra-monitoring/pull/52) : ci: delete specific apps
+
 ## [1.0a10] - 2026-06-03
 
 ### Changed
