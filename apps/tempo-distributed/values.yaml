@@ -54,6 +54,15 @@ ingester:
   extraEnvFrom:
     - secretRef:
         name: tempo-s3-credentials
+  affinity: |
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        - labelSelector:
+            matchLabels:
+              app.kubernetes.io/component: ingester
+              app.kubernetes.io/instance: tempo-distributed
+              app.kubernetes.io/name: tempo
+          topologyKey: "kubernetes.io/hostname"
 
 metricsGenerator:
   enabled: true
