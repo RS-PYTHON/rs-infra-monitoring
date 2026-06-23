@@ -21,7 +21,13 @@ affinity:
         - key: node-role.kubernetes.io/infra
           operator: Exists
 
+namespaceScope: false
+
 serviceMonitor:
   enabled: true
 
-namespaceScope: false
+resources:
+  limits:
+    memory: 48Mi
+  requests:
+    memory: 18Mi
