@@ -51,6 +51,12 @@ alloy:
       targetPort: 4317
       protocol: "TCP"
 
+  resources:
+    limits:
+      memory: 640Mi
+    requests:
+      memory: 6Mi
+
   configMap:
     content: |
       livedebugging {

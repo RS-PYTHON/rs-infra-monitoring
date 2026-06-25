@@ -55,7 +55,11 @@ ingester:
   # -- Number of replicas for the ingester
   replicas: 3
   # -- Resource requests and limits for the ingester
-  resources: {}
+  resources:
+    limits:
+      memory: 576Mi
+    requests:
+      memory: 174Mi
   # -- Pod Disruption Budget maxUnavailable
   maxUnavailable: 1
   zoneAwareReplication:
@@ -72,7 +76,11 @@ querier:
   # -- Number of replicas for the querier
   replicas: 3
   # -- Resource requests and limits for the querier
-  resources: {}
+  resources:
+    limits:
+      memory: 192Mi
+    requests:
+      memory: 89Mi
   # -- Pod Disruption Budget maxUnavailable
   maxUnavailable: 2
   affinity:
@@ -87,7 +95,11 @@ queryFrontend:
   # -- Number of replicas for the query-frontend
   replicas: 2
   # -- Resource requests and limits for the query-frontend
-  resources: {}
+  resources:
+    limits:
+      memory: 192Mi
+    requests:
+      memory: 139Mi
   # -- Pod Disruption Budget maxUnavailable
   maxUnavailable: 1
   affinity:
@@ -104,8 +116,11 @@ queryScheduler:
   # it's also recommended that this value evenly divides the latter
   replicas: 2
   # -- Resource requests and limits for the query-scheduler
-  resources: {}
-  # -- Pod Disruption Budget maxUnavailable
+  resources:
+    limits:
+      memory: 36Mi
+    requests:
+      memory: 20Mi
   maxUnavailable: 1
   affinity:
     nodeAffinity:
@@ -119,7 +134,11 @@ distributor:
   # -- Number of replicas for the distributor
   replicas: 3
   # -- Resource requests and limits for the distributor
-  resources: {}
+  resources:
+    limits:
+      memory: 122Mi
+    requests:
+      memory: 47Mi
   # -- Pod Disruption Budget maxUnavailable
   maxUnavailable: 2
   affinity:
@@ -134,7 +153,11 @@ compactor:
   # -- Number of replicas for the compactor
   replicas: 1
   # -- Resource requests and limits for the compactor
-  resources: {}
+  resources:
+    limits:
+      memory: 72Mi
+    requests:
+      memory: 45Mi
   affinity:
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
@@ -147,7 +170,11 @@ indexGateway:
   # -- Number of replicas for the index-gateway
   replicas: 2
   # -- Resource requests and limits for the index-gateway
-  resources: {}
+  resources:
+    limits:
+      memory: 72Mi
+    requests:
+      memory: 47Mi
   # -- Pod Disruption Budget maxUnavailable
   maxUnavailable: 1
   affinity:
