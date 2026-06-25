@@ -12,6 +12,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+alertmanager:
+  alertmanagerSpec:
+    resources:
+      limits:
+        memory: 32Mi
+      requests:
+        memory: 16Mi
+
 grafana:
   enabled: false
 
@@ -23,6 +31,11 @@ prometheusOperator:
           - matchExpressions:
             - key: "node-role.kubernetes.io/infra"
               operator: Exists
+  resources:
+    limits:
+      memory: 64Mi
+    requests:
+      memory: 27Mi
 
 defaultRules:
   rules:
