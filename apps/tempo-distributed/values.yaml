@@ -75,14 +75,11 @@ ingester:
               app.kubernetes.io/instance: tempo-distributed
               app.kubernetes.io/name: tempo
           topologyKey: "kubernetes.io/hostname"
-<<<<<<< Updated upstream
   resources:
     limits:
       memory: 2648Mi
     requests:
       memory: 45Mi
-=======
->>>>>>> Stashed changes
 
 metricsGenerator:
   enabled: true
