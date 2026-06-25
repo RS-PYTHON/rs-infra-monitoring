@@ -196,6 +196,8 @@ chunksCache:
   resources:
     requests:
       cpu: 500m
+      memory: 8192Mi
+    limits:
       memory: 9830Mi
   affinity:
     nodeAffinity:
@@ -215,6 +217,11 @@ gateway:
           - matchExpressions:
             - key: "node-role.kubernetes.io/infra"
               operator: Exists
+  resources:
+    limits:
+      memory: 18Mi
+    requests:
+      memory: 12Mi
 
 resultsCache:
   # -- Total number of results-cache replicas
@@ -228,6 +235,8 @@ resultsCache:
   resources:
     requests:
       cpu: 500m
+      memory: 1024Mi
+    limits:
       memory: 1229Mi
   affinity:
     nodeAffinity:
