@@ -19,6 +19,8 @@ overrides:
         - service-graphs
         - span-metrics
         - local-blocks
+    global:
+      max_bytes_per_trace: 6000000000
 
 compactor:
   config:
@@ -73,11 +75,14 @@ ingester:
               app.kubernetes.io/instance: tempo-distributed
               app.kubernetes.io/name: tempo
           topologyKey: "kubernetes.io/hostname"
+<<<<<<< Updated upstream
   resources:
     limits:
       memory: 2648Mi
     requests:
       memory: 45Mi
+=======
+>>>>>>> Stashed changes
 
 metricsGenerator:
   enabled: true
@@ -164,7 +169,7 @@ storage:
       insecure: false
 
 global_overrides:
-  max_bytes_per_trace: 50000000
+  max_bytes_per_trace: 4000000000
 
 memcached:
   nodeSelector:
