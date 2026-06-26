@@ -19,6 +19,8 @@ overrides:
         - service-graphs
         - span-metrics
         - local-blocks
+    global:
+      max_bytes_per_trace: 50000000
 
 compactor:
   config:
@@ -178,9 +180,6 @@ storage:
       endpoint: "{{ s3.endpoint | regex_replace('http(.)?://', '') }}"
       region: "{{ s3.region }}"
       insecure: false
-
-global_overrides:
-  max_bytes_per_trace: 500000000
 
 memcached:
   extraArgs:
