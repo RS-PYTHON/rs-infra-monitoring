@@ -68,4 +68,4 @@ yq -i '
 
   # Remove memcached extraArgs
   del(.memcached.extraArgs)
-' values.yaml
+' "${APPS}/tempo-distributed/values.yaml"
