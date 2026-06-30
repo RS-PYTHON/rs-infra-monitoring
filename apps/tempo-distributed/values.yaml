@@ -20,7 +20,7 @@ overrides:
         - span-metrics
         - local-blocks
     global:
-      max_bytes_per_trace: 50000000
+      max_bytes_per_trace: 500000000
 
 compactor:
   config:
@@ -87,7 +87,7 @@ ingester:
           topologyKey: "kubernetes.io/hostname"
   resources:
     limits:
-      memory: 3Gi
+      memory: 4Gi
     requests:
       memory: 3Gi
 
@@ -114,17 +114,19 @@ metricsGenerator:
         name: tempo-s3-credentials
   resources:
     limits:
-      memory: 1152Mi
+      memory: 2Gi
     requests:
       memory: 256Mi
 
 querier:
   config:
+    server:
+      grpc_server_max_recv_msg_size: 1073741824
+      grpc_server_max_send_msg_size: 1073741824
     frontend_worker:
-      # -- grpc client configuration
       grpc_client_config:
-        max_send_msg_size: 419430400
-        max_recv_msg_size: 419430400
+        max_recv_msg_size: 1073741824
+        max_send_msg_size: 1073741824
   nodeSelector:
     node-role.kubernetes.io/infra: ""
   extraArgs:
@@ -167,8 +169,8 @@ traces:
       enabled: true
 
 server:
-  grpc_server_max_recv_msg_size: 419430400
-  grpc_server_max_send_msg_size: 419430400
+  grpc_server_max_recv_msg_size: 1073741824
+  grpc_server_max_send_msg_size: 1073741824
 
 storage:
   trace:
@@ -190,7 +192,7 @@ memcached:
     limits:
       memory: 128Mi
     requests:
-      memory: 2Mi
+      memory: 64Mi
 
 metaMonitoring:
   serviceMonitor:
