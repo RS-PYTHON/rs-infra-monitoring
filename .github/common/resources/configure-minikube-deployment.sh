@@ -46,9 +46,26 @@ for path in $(yq eval '.. | select(has("affinity")) | path | join(".")' "${APPS}
     }]" "${APPS}/loki/values.yaml"
 done
 
-# Disable tempo secure mode
-sed -i 's!insecure: false!insecure: true!g' "${APPS}/tempo-distributed/values.yaml"
+# Tempo part
+yq -i '
+  # Remove all memory requests and limits
+  del(.. | select(has("resources")).resources.requests.memory) |
+  del(.. | select(has("resources")).resources.limits.memory) |
 
-# Lower tempo replicas
-yq -i '.ingester.replicas = 1' "${APPS}/tempo-distributed/values.yaml"
-yq -i '.ingester.config.replication_factor = 1' "${APPS}/tempo-distributed/values.yaml"
+  # Disable autoscaling
+  .distributor.autoscaling.enabled = false |
+
+  # Set replicas=1 where needed
+  .distributor.replicas = 1 |
+  .memcached.replicas = 1 |
+  .ingester.replicas = 1 |
+
+  # Ensure single-node consistency
+  .tempo.structuredConfig.ingester.lifecycler.ring.replication_factor = 1 |
+
+  # Enable insecure S3
+  .storage.trace.s3.insecure = true |
+
+  # Remove memcached extraArgs
+  del(.memcached.extraArgs)
+' values.yaml

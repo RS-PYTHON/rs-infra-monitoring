@@ -22,6 +22,17 @@ overrides:
     global:
       max_bytes_per_trace: 500000000
 
+tempo:
+  structuredConfig:
+    server:
+      grpc_server_max_recv_msg_size: 1073741824
+      grpc_server_max_send_msg_size: 1073741824
+    querier:
+      frontend_worker:
+        grpc_client_config:
+          max_recv_msg_size: 1073741824
+          max_send_msg_size: 1073741824
+
 compactor:
   config:
     compaction:
@@ -35,7 +46,7 @@ compactor:
         name: tempo-s3-credentials
   resources:
     limits:
-      memory: 3.5Gi
+      memory: 8Gi
     requests:
       memory: 512Mi
 
@@ -114,7 +125,7 @@ metricsGenerator:
         name: tempo-s3-credentials
   resources:
     limits:
-      memory: 2Gi
+      memory: 3Gi
     requests:
       memory: 256Mi
 
@@ -136,11 +147,14 @@ querier:
         name: tempo-s3-credentials
   resources:
     limits:
-      memory: 7Gi
+      memory: 8Gi
     requests:
-      memory: 7Gi
+      memory: 8Gi
 
 queryFrontend:
+  grpc_client_config:
+    max_recv_msg_size: 1073741824
+    max_send_msg_size: 1073741824
   query:
     enabled: true
     resources:
@@ -157,9 +171,9 @@ queryFrontend:
         name: tempo-s3-credentials
   resources:
     limits:
-      memory: 3Gi
+      memory: 5Gi
     requests:
-      memory: 3Gi
+      memory: 5Gi
 
 traces:
   otlp:
@@ -184,13 +198,14 @@ storage:
       insecure: false
 
 memcached:
+  replicas: 2
   extraArgs:
-    - "-m 64"
+    - "-m 512"
   nodeSelector:
     node-role.kubernetes.io/infra: ""
   resources:
     limits:
-      memory: 128Mi
+      memory: 1024Mi
     requests:
       memory: 64Mi
 
