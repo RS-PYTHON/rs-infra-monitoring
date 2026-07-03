@@ -36,7 +36,7 @@ tempo:
 compactor:
   config:
     compaction:
-      block_retention: 2160h #2160 hours in 90 days
+      block_retention: 2160h # 90 days
   nodeSelector:
     node-role.kubernetes.io/infra: ""
   extraArgs:
@@ -52,13 +52,9 @@ compactor:
 
 distributor:
   autoscaling:
-    # -- Enable autoscaling for the distributor
     enabled: true
-    # -- Minimum autoscaling replicas for the distributor
     minReplicas: 2
-    # -- Maximum autoscaling replicas for the distributor
     maxReplicas: 3
-    # -- Target CPU utilisation percentage for the distributor
     targetCPUUtilizationPercentage: 50
   config:
     max_attribute_bytes: 4096
@@ -95,7 +91,7 @@ ingester:
               app.kubernetes.io/component: ingester
               app.kubernetes.io/instance: tempo-distributed
               app.kubernetes.io/name: tempo
-          topologyKey: "kubernetes.io/hostname"
+          topologyKey: kubernetes.io/hostname
   resources:
     limits:
       memory: 4Gi
@@ -111,7 +107,7 @@ metricsGenerator:
   config:
     storage:
       remote_write:
-        - url: "http://prometheus-kube-prometheus-prometheus.monitoring.svc.cluster.local:9090/prometheus/api/v1/write"
+        - url: http://prometheus-kube-prometheus-prometheus.monitoring.svc.cluster.local:9090/prometheus/api/v1/write
     processor:
       local_blocks:
         filter_server_spans: false
@@ -131,9 +127,6 @@ metricsGenerator:
 
 querier:
   config:
-    server:
-      grpc_server_max_recv_msg_size: 1073741824
-      grpc_server_max_send_msg_size: 1073741824
     frontend_worker:
       grpc_client_config:
         max_recv_msg_size: 1073741824
@@ -152,9 +145,6 @@ querier:
       memory: 8Gi
 
 queryFrontend:
-  grpc_client_config:
-    max_recv_msg_size: 1073741824
-    max_send_msg_size: 1073741824
   query:
     enabled: true
     resources:

@@ -22,14 +22,14 @@ labels:
 
 helmCharts:
 - name: loki
-  repo: https://grafana.github.io/helm-charts
+  repo: oci://ghcr.io/grafana-community/helm-charts/
   releaseName: "{{ app_name }}"
-  version: 6.32.0
+  version: 18.3.1
   namespace: logging
   valuesFile: values.yaml
 
-resources:
-  - grafanadatasource.yaml
+#resources:
+#  - grafanadatasource.yaml
 
 secretGenerator:
 - name: loki-s3-credentials
