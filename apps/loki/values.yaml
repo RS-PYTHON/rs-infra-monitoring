@@ -57,7 +57,7 @@ ingester:
   # -- Resource requests and limits for the ingester
   resources:
     limits:
-      memory: 576Mi
+      memory: 1Gi
     requests:
       memory: 174Mi
   # -- Pod Disruption Budget maxUnavailable
@@ -78,7 +78,7 @@ querier:
   # -- Resource requests and limits for the querier
   resources:
     limits:
-      memory: 192Mi
+      memory: 256Mi
     requests:
       memory: 89Mi
   # -- Pod Disruption Budget maxUnavailable
@@ -97,7 +97,7 @@ queryFrontend:
   # -- Resource requests and limits for the query-frontend
   resources:
     limits:
-      memory: 192Mi
+      memory: 512Mi
     requests:
       memory: 139Mi
   # -- Pod Disruption Budget maxUnavailable
@@ -118,7 +118,7 @@ queryScheduler:
   # -- Resource requests and limits for the query-scheduler
   resources:
     limits:
-      memory: 36Mi
+      memory: 256Mi
     requests:
       memory: 20Mi
   maxUnavailable: 1
@@ -155,7 +155,7 @@ compactor:
   # -- Resource requests and limits for the compactor
   resources:
     limits:
-      memory: 72Mi
+      memory: 1Gi
     requests:
       memory: 45Mi
   affinity:
@@ -196,6 +196,8 @@ chunksCache:
   resources:
     requests:
       cpu: 500m
+      memory: 8192Mi
+    limits:
       memory: 9830Mi
   affinity:
     nodeAffinity:
@@ -215,6 +217,11 @@ gateway:
           - matchExpressions:
             - key: "node-role.kubernetes.io/infra"
               operator: Exists
+  resources:
+    limits:
+      memory: 18Mi
+    requests:
+      memory: 12Mi
 
 resultsCache:
   # -- Total number of results-cache replicas
@@ -228,6 +235,8 @@ resultsCache:
   resources:
     requests:
       cpu: 500m
+      memory: 1024Mi
+    limits:
       memory: 1229Mi
   affinity:
     nodeAffinity:
