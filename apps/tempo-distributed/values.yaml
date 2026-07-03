@@ -19,6 +19,19 @@ overrides:
         - service-graphs
         - span-metrics
         - local-blocks
+    global:
+      max_bytes_per_trace: 500000000
+
+tempo:
+  structuredConfig:
+    server:
+      grpc_server_max_recv_msg_size: 1073741824
+      grpc_server_max_send_msg_size: 1073741824
+    querier:
+      frontend_worker:
+        grpc_client_config:
+          max_recv_msg_size: 1073741824
+          max_send_msg_size: 1073741824
 
 compactor:
   config:
@@ -33,11 +46,20 @@ compactor:
         name: tempo-s3-credentials
   resources:
     limits:
-      memory: 1536Mi
+      memory: 8Gi
     requests:
-      memory: 162Mi
+      memory: 512Mi
 
 distributor:
+  autoscaling:
+    # -- Enable autoscaling for the distributor
+    enabled: true
+    # -- Minimum autoscaling replicas for the distributor
+    minReplicas: 2
+    # -- Maximum autoscaling replicas for the distributor
+    maxReplicas: 3
+    # -- Target CPU utilisation percentage for the distributor
+    targetCPUUtilizationPercentage: 50
   config:
     max_attribute_bytes: 4096
   nodeSelector:
@@ -49,9 +71,10 @@ distributor:
         name: tempo-s3-credentials
   resources:
     limits:
-      memory: 320Mi
+      memory: 2Gi
+      cpu: 150m
     requests:
-      memory: 49Mi
+      memory: 50Mi
 
 ingester:
   persistence:
@@ -75,9 +98,9 @@ ingester:
           topologyKey: "kubernetes.io/hostname"
   resources:
     limits:
-      memory: 2648Mi
+      memory: 4Gi
     requests:
-      memory: 45Mi
+      memory: 3Gi
 
 metricsGenerator:
   enabled: true
@@ -102,11 +125,19 @@ metricsGenerator:
         name: tempo-s3-credentials
   resources:
     limits:
-      memory: 1152Mi
+      memory: 3Gi
     requests:
-      memory: 261Mi
+      memory: 256Mi
 
 querier:
+  config:
+    server:
+      grpc_server_max_recv_msg_size: 1073741824
+      grpc_server_max_send_msg_size: 1073741824
+    frontend_worker:
+      grpc_client_config:
+        max_recv_msg_size: 1073741824
+        max_send_msg_size: 1073741824
   nodeSelector:
     node-role.kubernetes.io/infra: ""
   extraArgs:
@@ -116,11 +147,14 @@ querier:
         name: tempo-s3-credentials
   resources:
     limits:
-      memory: 992Mi
+      memory: 8Gi
     requests:
-      memory: 42Mi
+      memory: 8Gi
 
 queryFrontend:
+  grpc_client_config:
+    max_recv_msg_size: 1073741824
+    max_send_msg_size: 1073741824
   query:
     enabled: true
     resources:
@@ -137,9 +171,9 @@ queryFrontend:
         name: tempo-s3-credentials
   resources:
     limits:
-      memory: 230Mi
+      memory: 5Gi
     requests:
-      memory: 33Mi
+      memory: 5Gi
 
 traces:
   otlp:
@@ -149,8 +183,8 @@ traces:
       enabled: true
 
 server:
-  grpc_server_max_recv_msg_size: 41943040
-  grpc_server_max_send_msg_size: 41943040
+  grpc_server_max_recv_msg_size: 1073741824
+  grpc_server_max_send_msg_size: 1073741824
 
 storage:
   trace:
@@ -163,17 +197,17 @@ storage:
       region: "{{ s3.region }}"
       insecure: false
 
-global_overrides:
-  max_bytes_per_trace: 50000000
-
 memcached:
+  replicas: 2
+  extraArgs:
+    - "-m 512"
   nodeSelector:
     node-role.kubernetes.io/infra: ""
   resources:
     limits:
-      memory: 96Mi
+      memory: 1024Mi
     requests:
-      memory: 2Mi
+      memory: 64Mi
 
 metaMonitoring:
   serviceMonitor:

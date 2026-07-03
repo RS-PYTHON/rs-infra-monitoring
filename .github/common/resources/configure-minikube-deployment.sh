@@ -22,20 +22,33 @@ sed -i -e 's!cpu: 200m!cpu: 1m!g' -e 's!memory: 256Mi!memory: 128Mi!g' "${APPS}/
 sed -i -e 's!cpu: 50m!cpu: 1m!g' -e 's!memory: 128Mi!memory: 64Mi!g' "${APPS}/grafana/image-renderer.yaml"
 sed -i -e 's!cpu: 500m!cpu: 1m!g' -e 's!memory: 512Mi!memory: 128Mi!g' "${APPS}/prometheus/values.yaml"
 
-# Lower the requests and number of loki replicas
-sed -i \
-    -e 's!max_concurrent: 4!max_concurrent: 1!g' \
-    -e 's!replicas: 3!replicas: 1!g' \
-    -e 's!replicas: 2!replicas: 1!g' \
-    -e 's!maxUnavailable: 2!maxUnavailable: 0!g' \
-    -e 's!maxUnavailable: 1!maxUnavailable: 0!g' \
-    -e 's!cpu: 500m!cpu: 5m!g' \
-    -e 's!allocatedMemory: 8192!allocatedMemory: 100!g' \
-    -e 's!allocatedMemory: 1024!allocatedMemory: 100!g' \
-    -e 's!memory: 1229Mi!memory: 120Mi!g' \
-    -e 's!memory: 9830Mi!memory: 120Mi!g' \
-    -e 's!writebackSizeLimit: 500MB!writebackSizeLimit: 50MB!g' \
-    "${APPS}/loki/values.yaml"
+# Loki part
+yq -i '
+  # Remove all memory requests and limits
+  del(.. | select(has("resources")).resources.requests.memory) |
+  del(.. | select(has("resources")).resources.limits.memory) |
+
+  # Set replicas=1
+  .ingester.replicas = 1 |
+  .querier.replicas = 1 |
+  .queryFrontend.replicas = 1 |
+  .queryScheduler.replicas = 1 |
+  .distributor.replicas = 1 |
+  .indexGateway.replicas = 1 |
+
+  # Set maxUnavailable=0
+  (.. | select(has("maxUnavailable")).maxUnavailable) = 0 |
+
+  # Reduce concurrency for single-node mode
+  .loki.querier.max_concurrent = 1 |
+
+  # Reduce cache writeback sizes
+  .chunksCache.writebackSizeLimit = "50MB" |
+  .resultsCache.writebackSizeLimit = "50MB" |
+
+  # Enable insecure S3 access
+  .loki.storage.s3.insecure = true
+' "${APPS}/loki/values.yaml"
 
 # Disable strict podAntiAffinity loki directives that prevent to deploy on a single node
 # see https://github.com/grafana/helm-charts/issues/2709#issuecomment-2839130975
@@ -46,9 +59,26 @@ for path in $(yq eval '.. | select(has("affinity")) | path | join(".")' "${APPS}
     }]" "${APPS}/loki/values.yaml"
 done
 
-# Disable tempo secure mode
-sed -i 's!insecure: false!insecure: true!g' "${APPS}/tempo-distributed/values.yaml"
+# Tempo part
+yq -i '
+  # Remove all memory requests and limits
+  del(.. | select(has("resources")).resources.requests.memory) |
+  del(.. | select(has("resources")).resources.limits.memory) |
 
-# Lower tempo replicas
-yq -i '.ingester.replicas = 1' "${APPS}/tempo-distributed/values.yaml"
-yq -i '.ingester.config.replication_factor = 1' "${APPS}/tempo-distributed/values.yaml"
+  # Disable autoscaling
+  .distributor.autoscaling.enabled = false |
+
+  # Set replicas=1 where needed
+  .distributor.replicas = 1 |
+  .memcached.replicas = 1 |
+  .ingester.replicas = 1 |
+
+  # Ensure single-node consistency
+  .tempo.structuredConfig.ingester.lifecycler.ring.replication_factor = 1 |
+
+  # Enable insecure S3
+  .storage.trace.s3.insecure = true |
+
+  # Remove memcached extraArgs
+  del(.memcached.extraArgs)
+' "${APPS}/tempo-distributed/values.yaml"
