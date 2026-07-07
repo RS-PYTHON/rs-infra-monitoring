@@ -14,10 +14,13 @@
 
 namespace: monitoring
 
-resources:
-- grafana.yaml
-- servicemonitor.yaml
-- image-renderer.yaml
+helmCharts:
+- name: grafana
+  namespace: monitoring
+  releaseName: '{{ app_name }}'
+  repo: oci://ghcr.io/grafana-community/helm-charts/
+  valuesFile: values.yaml
+  version: 12.7.2
 
 secretGenerator:
 - literals:
