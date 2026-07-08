@@ -116,6 +116,15 @@ serviceMonitor:
 
 imageRenderer:
   enabled: true
+  serviceMonitor:
+    enabled: true
+  resources:
+    limits:
+      cpu: 2
+      memory: 1Gi
+    requests:
+      cpu: 50m
+      memory: 128Mi
 
 affinity:
   nodeAffinity:
