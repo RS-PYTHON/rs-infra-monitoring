@@ -14,6 +14,9 @@
 
 namespace: monitoring
 
+resources:
+- pvc.yaml
+
 helmCharts:
 - name: grafana
   namespace: monitoring

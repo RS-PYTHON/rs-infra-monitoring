@@ -126,6 +126,9 @@ imageRenderer:
       cpu: 50m
       memory: 128Mi
 
+deploymentStrategy:
+  type: Recreate
+
 affinity:
   nodeAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:
