@@ -18,8 +18,8 @@ set -euo pipefail
 APPS="${APPS_DIR:-rs-infra-monitoring/apps}"
 
 # Lower the CPU requests
-sed -i -e 's!cpu: 200m!cpu: 1m!g' -e 's!memory: 256Mi!memory: 128Mi!g' "${APPS}/grafana/grafana.yaml"
-sed -i -e 's!cpu: 50m!cpu: 1m!g' -e 's!memory: 128Mi!memory: 64Mi!g' "${APPS}/grafana/image-renderer.yaml"
+sed -i -e 's!cpu: 200m!cpu: 1m!g' -e 's!memory: 256Mi!memory: 128Mi!g' "${APPS}/grafana/values.yaml" # Grafana
+sed -i -e 's!cpu: 50m!cpu: 1m!g' -e 's!memory: 128Mi!memory: 64Mi!g' "${APPS}/grafana/values.yaml" # ImageRenderer
 sed -i -e 's!cpu: 500m!cpu: 1m!g' -e 's!memory: 512Mi!memory: 128Mi!g' "${APPS}/prometheus/values.yaml"
 
 # Loki part

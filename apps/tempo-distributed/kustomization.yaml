@@ -22,14 +22,13 @@ labels:
 
 helmCharts:
 - name: tempo-distributed
-  namespace: logging
-  repo: https://grafana.github.io/helm-charts/
+  repo: oci://ghcr.io/grafana-community/helm-charts/
   releaseName: "{{ app_name }}"
-  version: 1.47.3
+  version: 2.26.0
   valuesFile: values.yaml
 
-resources:
-  - grafanadatasource.yaml
+#resources:
+#  - grafanadatasource.yaml
 
 secretGenerator:
 - name: tempo-s3-credentials

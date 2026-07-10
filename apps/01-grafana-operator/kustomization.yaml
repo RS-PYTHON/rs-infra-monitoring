@@ -17,6 +17,6 @@ helmCharts:
 - name: grafana-operator
   repo: oci://ghcr.io/grafana/helm-charts/
   releaseName: "{{ app_name }}"
-  version: v5.18.0
+  version: 5.24.0
   namespace: monitoring
   valuesFile: values.yaml

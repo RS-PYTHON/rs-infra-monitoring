@@ -12,16 +12,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-apiVersion: monitoring.coreos.com/v1
-kind: ServiceMonitor
+apiVersion: v1
+kind: PersistentVolumeClaim
 metadata:
-  name: grafana
+  name: grafana-pvc
 spec:
-  endpoints:
-  - interval: {{ grafana.serviceMonitor.interval}}
-    path: /metrics
-    port: grafana-http
-    scrapeTimeout: {{ grafana.serviceMonitor.scrapeTimeout }}
-  selector:
-    matchLabels:
-      app: grafana
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: csi-cinder-high-speed-retain
