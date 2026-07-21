@@ -10,69 +10,87 @@ Below are all the FOSS (Free and open-source software) used and their respective
 
 - Grafana Operator
   - Helm chart
-    - Version: 5.18.0
+    - Version: 5.24.0
     - License: [Apache License 2.0](https://github.com/grafana/grafana-operator/blob/master/LICENSE)
-    - Source: <https://github.com/grafana/grafana-operator/tree/v5.18.0/deploy/helm/grafana-operator>
+    - Source: <https://github.com/grafana/grafana-operator/tree/v5.24.0/deploy/helm/grafana-operator>
     - Copyright: Copyright the Grafana Authors. [Authors and Contributors](https://github.com/grafana/grafana/graphs/contributors)
   - Container image(s)
-    - ghcr.io/grafana/grafana-operator:v5.18.0
-      - License: [Apache License 2.0](https://github.com/grafana/grafana-operator/blob/v5.18.0/LICENSE)
-    - grafana/grafana:12.0.2
+    - ghcr.io/grafana/grafana-operator:v5.24.0
+      - License: [Apache License 2.0](https://github.com/grafana/grafana-operator/blob/v5.24.0/LICENSE)
+
+- Grafana
+  - Helm chart
+    - Version: 12.7.2
+    - License: [Apache License 2.0](https://github.com/grafana-community/helm-charts/blob/grafana-12.7.2/LICENSE)
+    - Source: <https://github.com/grafana-community/helm-charts/tree/grafana-12.7.2/charts/grafana>
+    - Copyright: Copyright the Grafana Authors. [Authors and Contributors](https://github.com/grafana-community/helm-charts/graphs/contributors)
+  - Container image(s)
+    - grafana/grafana:13.1.0
       - License: [GNU Affero General Public License v3.0](https://github.com/grafana/grafana/blob/v12.0.2/LICENSE)
+    - library/busybox:1.38.0
+      -  License: [Apache License 2.0](https://github.com/docker-library/busybox/blob/master/LICENSE)
 
 - Alloy
   - Helm chart
-    - Version: 1.1.2
-    - License: [Apache License 2.0](https://github.com/grafana/alloy/blob/helm-chart/1.1.2/LICENSE)
+    - Version: 1.10.0
+    - License: [Apache License 2.0](https://github.com/grafana/alloy/blob/helm-chart/1.10.0/LICENSE)
     - Source: <https://github.com/grafana/alloy/tree/helm-chart/1.1.2/operations/helm/charts/alloy>
-    - Copyright: Copyright The Alloy Authors. [Authors and Contributors](https://github.com/grafana/alloy/graphs/contributors)
+    - Copyright: Copyright The Alloy Authors. [Authors and Contributors](https://github.com/grafana-community/helm-charts/graphs/contributors)
   - Container image(s)
-    - docker.io/grafana/alloy:v1.9.2
-      - License: [Apache License 2.0](https://github.com/grafana/alloy/blob/v1.9.2/LICENSE)
+    - docker.io/grafana/alloy:v1.17.0
+      - License: [Apache License 2.0](https://github.com/grafana/alloy/blob/v1.17.0/LICENSE)
 
 - Loki
   - Helm chart
-    - Version: 0.79.0
-    - Licence: [Apache License 2.0](https://github.com/grafana/helm-charts/blob/loki-distributed-0.79.0/LICENSE)
-    - Source: <https://github.com/grafana/helm-charts/tree/loki-distributed-0.79.0/charts/loki-distributed>
-    - Copyright: Copyright The Loki Authors. [Authors and Contributors](https://github.com/grafana/helm-charts/graphs/contributors)
+    - Version: 18.3.1
+    - Licence: [Apache License 2.0](https://github.com/grafana-community/helm-charts/blob/main/LICENSE)
+    - Source: <https://github.com/grafana-community/helm-charts/tree/loki-18.3.1/charts/loki>
+    - Copyright: Copyright The Loki Authors. [Authors and Contributors](https://github.com/grafana-community/helm-charts/graphs/contributors)
   - Container image(s)
-    - docker.io/grafana/loki:2.9.6
-      - License: [GNU Affero General Public License v3.0](https://github.com/grafana/loki/blob/v2.9.6/LICENSE)
+    - docker.io/grafana/loki:3.7.3
+      - License: [GNU Affero General Public License v3.0](https://github.com/grafana/loki/blob/v3.7.3/LICENSE)
+    - memcached:1.6.42-alpine
+     - License: [BSD 3-Clause "New" or "Revised" License](https://github.com/docker-library/memcached/blob/master/LICENSE)
+    - prom/memcached-exporter:v0.16.0
+      - [Apache License 2.0](https://github.com/prometheus/memcached_exporter/blob/v0.16.0/LICENSE)
+    - nginxinc/nginx-unprivileged:1.31-alpine
+      - [Apache License 2.0](https://github.com/nginx/docker-nginx-unprivileged/blob/main/LICENSE)
+    - ghcr.io/jkroepke/access-log-exporter:0.4.4
+      - [Apache License 2.0](https://github.com/jkroepke/access-log-exporter/blob/v0.4.4/LICENSE.txt)
 
 - Tempo
   - Helm chart
-    - Version: 1.47.3
-    - License: [Apache License 2.0](https://github.com/grafana-community/helm-charts/blob/tempo-distributed-1.47.3/LICENSE)
-    - Source: <https://github.com/grafana-community/helm-charts/tree/tempo-distributed-1.47.3/charts/tempo-distributed>
-    - Copyright: Copyright The Tempo Authors. [Authors and Contributors](https://github.com/grafana/helm-charts/graphs/contributors)
+    - Version: 2.26.0
+    - License: [Apache License 2.0](https://github.com/grafana-community/helm-charts/blob/tempo-distributed-2.26.0/LICENSE)
+    - Source: <https://github.com/grafana-community/helm-charts/tree/tempo-distributed-2.26.0/charts/tempo-distributed>
+    - Copyright: Copyright The Tempo Authors. [Authors and Contributors](https://github.com/grafana-community/helm-charts/graphs/contributors)
   - Container image(s)
-    - docker.io/grafana/tempo:2.8.2
-      - License: [GNU Affero General Public License v3.0](https://github.com/grafana/tempo/blob/v2.8.2/LICENSE)
-    - docker.io/grafana/tempo-query:2.8.2
-      - License: [GNU Affero General Public License v3.0](https://github.com/grafana/tempo/blob/v2.8.2/LICENSE)
+    - docker.io/grafana/tempo:2.10.7
+      - License: [GNU Affero General Public License v3.0](https://github.com/grafana/tempo/blob/v2.10.7/LICENSE)
+    - docker.io/grafana/tempo-query:2.10.7
+      - License: [GNU Affero General Public License v3.0](https://github.com/grafana/tempo/blob/v2.10.7/LICENSE)
     - docker.io/library/memcached:1.6.33-alpine
       - License: [BSD 3-Clause License](https://github.com/memcached/memcached/blob/1.6.33/LICENSE)
 
 - kube-prometheus-stack
   - Helm chart
-    - Version: 58.0.0
-    - Licence: [Apache License 2.0](https://github.com/prometheus-community/helm-charts/blob/kube-prometheus-stack-58.0.0/LICENSE)
-    - Source: <https://github.com/prometheus-community/helm-charts/tree/kube-prometheus-stack-58.0.0>
+    - Version: 87.12.0
+    - Licence: [Apache License 2.0](https://github.com/prometheus-community/helm-charts/blob/kube-prometheus-stack-87.12.0/LICENSE)
+    - Source: <https://github.com/prometheus-community/helm-charts/tree/kube-prometheus-stack-87.12.0>
     - Copyright: Copyright The Prometheus community Development Team. [Authors and Contributors](https://github.com/prometheus-community/helm-charts/graphs/contributors)
   - Container image(s)
-    - quay.io/prometheus-operator/prometheus-config-reloader:v0.73.0
-      - License: [Apache License 2.0](https://github.com/prometheus-operator/prometheus-operator/blob/v0.73.0/LICENSE)
-    - quay.io/prometheus/alertmanager:v0.27.0
-      - License: [Apache License 2.0](https://github.com/prometheus/alertmanager/blob/v0.27.0/LICENSE)
-    - quay.io/prometheus-operator/prometheus-operator:v0.73.0
-      - License: [Apache License 2.0](https://github.com/prometheus-operator/prometheus-operator/blob/v0.73.0/LICENSE)
-    - registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.12.0
-      - License: [Apache License 2.0](https://github.com/kubernetes/kube-state-metrics/blob/v2.12.0/LICENSE)
-    - quay.io/prometheus/prometheus:v2.51.1
-      - License: [Apache License 2.0](https://github.com/prometheus/prometheus/blob/v2.51.1/LICENSE)
-    - quay.io/prometheus/node-exporter:v1.7.0
-      - License: [Apache License 2.0](https://github.com/prometheus/node_exporter/blob/v1.7.0/LICENSE)
+    - quay.io/prometheus-operator/prometheus-config-reloader:v0.92.1
+      - License: [Apache License 2.0](https://github.com/prometheus-operator/prometheus-operator/blob/v0.92.1/LICENSE)
+    - quay.io/prometheus/alertmanager:v0.33.1
+      - License: [Apache License 2.0](https://github.com/prometheus/alertmanager/blob/v0.33.1/LICENSE)
+    - quay.io/prometheus-operator/prometheus-operator:v0.92.1
+      - License: [Apache License 2.0](https://github.com/prometheus-operator/prometheus-operator/blob/v0.92.1/LICENSE)
+    - registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.19.1
+      - License: [Apache License 2.0](https://github.com/kubernetes/kube-state-metrics/blob/v2.19.1/LICENSE)
+    - quay.io/prometheus/prometheus:v3.13.0-distroless
+      - License: [Apache License 2.0](https://github.com/prometheus/prometheus/blob/v3.13.0/LICENSE)
+    - quay.io/prometheus/node-exporter:v1.11.1-distroless
+      - License: [Apache License 2.0](https://github.com/prometheus/node_exporter/blob/v1.11.1/LICENSE)
 
 ## Licenses
 

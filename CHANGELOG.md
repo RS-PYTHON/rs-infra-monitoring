@@ -15,6 +15,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) 
 
 ## Unreleased
 
+## [1.0a12] - 2026-07-21
+
+### Added
+
+- [RSPY-978](https://github.com/RS-PYTHON/rs-infra-monitoring/pull/57) : upgrade monitoring stack#57
+
+### Changed
+
+- [PR#54](https://github.com/RS-PYTHON/rs-infra-monitoring/pull/54) : harden node anti affinity
+- [PR#55](https://github.com/RS-PYTHON/rs-infra-monitoring/pull/55) : add memory request and limit
+- [PR#56](https://github.com/RS-PYTHON/rs-infra-monitoring/pull/56) : Fix memory request limit
+- update NOTICE.md file
+
 ## [1.0a11] - 2026-06-19
 
 ### Changed
