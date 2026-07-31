@@ -26,7 +26,9 @@ Below are all the FOSS (Free and open-source software) used and their respective
     - Copyright: Copyright the Grafana Authors. [Authors and Contributors](https://github.com/grafana-community/helm-charts/graphs/contributors)
   - Container image(s)
     - grafana/grafana:13.1.0
-      - License: [GNU Affero General Public License v3.0](https://github.com/grafana/grafana/blob/v12.0.2/LICENSE)
+      - License: [GNU Affero General Public License v3.0](https://github.com/grafana/grafana/blob/v13.1.0/LICENSE)
+    - grafana/grafana-image-renderer:latest
+      - License: [Apache License 2.0](https://github.com/grafana/grafana-image-renderer/blob/master/LICENSE)
     - library/busybox:1.38.0
       -  License: [Apache License 2.0](https://github.com/docker-library/busybox/blob/master/LICENSE)
 
