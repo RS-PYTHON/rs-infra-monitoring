@@ -15,7 +15,7 @@
 replicas: 1
 
 ingress:
-  enabled: true
+  enabled: false
   ingressClassName: nginx
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
@@ -27,6 +27,20 @@ ingress:
     - secretName: monitoring-{{ platform_domain_name | replace(".", "-") }}
       hosts:
         - monitoring.{{ platform_domain_name }}
+
+route:
+  main:
+    enabled: true
+    hostnames:
+    - monitoring.{{ platform_domain_name }}
+    parentRefs:
+    - name: monitoring
+      kind: ListenerSet
+      namespace: monitoring
+    matches:
+      - path:
+          type: PathPrefix
+          value: /
 
 resources:
   limits:
