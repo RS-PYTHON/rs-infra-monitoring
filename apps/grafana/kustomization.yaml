@@ -16,6 +16,7 @@ namespace: monitoring
 
 resources:
 - pvc.yaml
+- externalgrafana.yaml
 
 helmCharts:
 - name: grafana
