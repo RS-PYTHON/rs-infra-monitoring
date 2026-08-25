@@ -30,6 +30,8 @@ secretGenerator:
   - GF_SMTP_USER="{{ grafana.smtp_credentials.user }}"
   - GF_SMTP_PASSWORD="{{ grafana.smtp_credentials.password }}"
   - GRAFANA_CLIENT_SECRET="{{ grafana_oidc_client_secret }}"
+  - GF_SECURITY_ADMIN_USER="{{ grafana.admin.user }}"
+  - GF_SECURITY_ADMIN_PASSWORD="{{ grafana.admin.password }}"
   name: grafana-credentials
   options:
     disableNameSuffixHash: true
