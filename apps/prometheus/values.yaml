@@ -47,7 +47,7 @@ defaultRules:
 
 prometheus:
   ingress:
-    enabled: true
+    enabled: false
     # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
     # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
     ingressClassName: nginx
@@ -89,6 +89,19 @@ prometheus:
       - secretName: monitoring-{{ platform_domain_name | replace(".", "-") }}
         hosts:
           - monitoring.{{ platform_domain_name }}
+  route:
+    main:
+      enabled: true
+      hostnames:
+      - monitoring.{{ platform_domain_name }}
+      parentRefs:
+      - name: monitoring
+        kind: ListenerSet
+        namespace: monitoring
+      matches:
+        - path:
+            type: PathPrefix
+            value: /prometheus
 
   prometheusSpec:
     ## External URL at which Prometheus will be reachable.
