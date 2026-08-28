@@ -24,3 +24,4 @@ kind: Kustomization
 resources:
 - securitypolicy.yaml
 - referencegrant.yaml
+- secret.yaml
