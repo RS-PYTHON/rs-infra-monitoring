@@ -15,6 +15,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) 
 
 ## Unreleased
 
+## [1.0a13] - 2026-08-28
+
+### Added
+
+- [RSPY-856](https://github.com/RS-PYTHON/rs-helm/pull/62) : Use gatewayapi for grafana
+- [RSPY-856](https://github.com/RS-PYTHON/rs-helm/pull/62) : Move from oauth2 proxy to envoy for prometheus
+
+### Changed
+
+- [PR#60](https://github.com/RS-PYTHON/rs-infra-monitoring/pull/60) : Add wrapper in ci
+- [RSPY-978](https://github.com/RS-PYTHON/rs-helm/pull/61) : Include grafana-image-renderer in NOTICE.md
+
+### Fixed
+
+- [PR#59](https://github.com/RS-PYTHON/rs-infra-monitoring/pull/59) : Add new nodepool for big dask worker
+
 ## [1.0a12] - 2026-07-21
 
 ### Added
