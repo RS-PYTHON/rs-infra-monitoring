@@ -99,9 +99,12 @@ prometheus:
         kind: ListenerSet
         namespace: monitoring
       matches:
-        - path:
-            type: PathPrefix
-            value: /prometheus
+      - path:
+          type: PathPrefix
+          value: /prometheus
+      - path:
+          type: PathPrefix
+          value: /oauth2
 
   prometheusSpec:
     ## External URL at which Prometheus will be reachable.

@@ -15,7 +15,7 @@
 apiVersion: gateway.networking.k8s.io/v1beta1
 kind: ReferenceGrant
 metadata:
-  name: allow-monitoring-auth
+  name: allow-monitoring-oidc-keycloak
   namespace: iam
 spec:
   from:
@@ -25,4 +25,4 @@ spec:
   to:
     - group: ""
       kind: Service
-      name: oauth2-proxy
+      name: keycloak-service
