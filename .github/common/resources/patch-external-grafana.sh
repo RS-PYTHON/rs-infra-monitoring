@@ -17,4 +17,4 @@ set -euo pipefail
 
 APPS="${APPS_DIR:-rs-infra-monitoring/apps}"
 
-yq -i '.spec.client.tls.certSecretRef = "monitoring-rspy-example-com"' "${APPS}/grafana/externalgrafana.yaml"
+yq -i '.spec.client.tls.certSecretRef.name = "monitoring-rspy-example-com"' "${APPS}/grafana/externalgrafana.yaml"
