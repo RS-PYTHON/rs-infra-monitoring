@@ -15,6 +15,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) 
 
 ## Unreleased
 
+## [1.0a14] - 2026-09-29
+
+### Changed
+
+- [PR#66](https://github.com/RS-PYTHON/rs-helm/pull/66) : add monitoring listernerset in the monitoring repository
+
 ## [1.0a13] - 2026-08-28
 
 ### Added
