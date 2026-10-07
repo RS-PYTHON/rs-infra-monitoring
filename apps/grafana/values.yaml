@@ -21,17 +21,6 @@ admin:
 
 ingress:
   enabled: false
-  ingressClassName: nginx
-  annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-prod
-  path: /
-  pathType: Prefix
-  hosts:
-    - monitoring.{{ platform_domain_name }}
-  tls:
-    - secretName: monitoring-{{ platform_domain_name | replace(".", "-") }}
-      hosts:
-        - monitoring.{{ platform_domain_name }}
 
 route:
   main:

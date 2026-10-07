@@ -48,47 +48,6 @@ defaultRules:
 prometheus:
   ingress:
     enabled: false
-    # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
-    # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
-    ingressClassName: nginx
-
-    annotations:
-      cert-manager.io/cluster-issuer: letsencrypt-prod
-      nginx.ingress.kubernetes.io/backend-protocol: HTTP
-      nginx.ingress.kubernetes.io/proxy-buffer-size: 32k
-      nginx.ingress.kubernetes.io/auth-signin: https://oauth2-proxy.{{ platform_domain_name }}/oauth2/start?rd=https://$host/prometheus
-      nginx.ingress.kubernetes.io/auth-url: https://oauth2-proxy.{{ platform_domain_name }}/oauth2/auth
-      nginx.ingress.kubernetes.io/auth-response-headers: Authorization
-
-    labels: {}
-
-    ## Redirect ingress to an additional defined port on the service
-    # servicePort: 8081
-
-    ## Hostnames.
-    ## Must be provided if Ingress is enabled.
-    ##
-    # hosts:
-    #   - prometheus.domain.com
-    hosts:
-      - monitoring.{{ platform_domain_name }}
-
-    ## Paths to use for ingress rules - one path should match the prometheusSpec.routePrefix
-    ##
-    paths:
-      - /prometheus
-
-    ## For Kubernetes >= 1.18 you should specify the pathType (determines how Ingress paths should be matched)
-    ## See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#better-path-matching-with-path-types
-    pathType: Prefix
-
-    ## TLS configuration for Prometheus Ingress
-    ## Secret must be manually created in the namespace
-    ##
-    tls:
-      - secretName: monitoring-{{ platform_domain_name | replace(".", "-") }}
-        hosts:
-          - monitoring.{{ platform_domain_name }}
   route:
     main:
       enabled: true
