@@ -286,7 +286,7 @@ Below are all the FOSS (Free and open-source software) used and their respective
       same "printed page" as the copyright notice for easier
       identification within third-party archives.
 
-   Copyright [yyyy] [name of copyright owner]
+   Copyright [yyyy] \[name of copyright owner]
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -1310,7 +1310,7 @@ Public License instead of this License.
 
 BSD 3-Clause License
 
-Copyright (c) [year], [fullname]
+Copyright (c) [year], \[fullname]
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
