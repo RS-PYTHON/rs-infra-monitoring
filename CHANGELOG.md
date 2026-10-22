@@ -13,7 +13,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) 
 >- **Fixed** for any bug fixes.
 >- **Security** in case of vulnerabilities.
 
-## Unreleased
+## [1.0a15] - 2026-10-22
+
+### Added
+
+- [RSPY-954](https://github.com/RS-PYTHON/rs-helm/pull/68) : RSPY-954: Add the README
+
+### Security
+
+- [RSPY-1229](https://github.com/RS-PYTHON/rs-helm/pull/69) : RSPY-1229: Download and cache the Trivy databases once per day
 
 ## [1.0a14] - 2026-09-29
 
