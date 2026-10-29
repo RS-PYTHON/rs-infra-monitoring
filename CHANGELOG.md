@@ -13,25 +13,33 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) 
 >- **Fixed** for any bug fixes.
 >- **Security** in case of vulnerabilities.
 
-## Unreleased
+## [1.0a15] - 2026-10-22
+
+### Added
+
+- [RSPY-954](https://github.com/RS-PYTHON/rs-infra-monitoring/pull/68) : Add the README
+
+### Security
+
+- [RSPY-1229](https://github.com/RS-PYTHON/rs-infra-monitoring/pull/69) : Download and cache the Trivy databases once per day
 
 ## [1.0a14] - 2026-09-29
 
 ### Changed
 
-- [PR#66](https://github.com/RS-PYTHON/rs-helm/pull/66) : add monitoring listernerset in the monitoring repository
+- [PR#66](https://github.com/RS-PYTHON/rs-infra-monitoring/pull/66) : add monitoring listernerset in the monitoring repository
 
 ## [1.0a13] - 2026-08-28
 
 ### Added
 
-- [RSPY-856](https://github.com/RS-PYTHON/rs-helm/pull/62) : Use gatewayapi for grafana
-- [RSPY-856](https://github.com/RS-PYTHON/rs-helm/pull/62) : Move from oauth2 proxy to envoy for prometheus
+- [RSPY-856](https://github.com/RS-PYTHON/rs-infra-monitoring/pull/62) : Use gatewayapi for grafana
+- [RSPY-856](https://github.com/RS-PYTHON/rs-infra-monitoring/pull/62) : Move from oauth2 proxy to envoy for prometheus
 
 ### Changed
 
 - [PR#60](https://github.com/RS-PYTHON/rs-infra-monitoring/pull/60) : Add wrapper in ci
-- [RSPY-978](https://github.com/RS-PYTHON/rs-helm/pull/61) : Include grafana-image-renderer in NOTICE.md
+- [RSPY-978](https://github.com/RS-PYTHON/rs-infra-monitoring/pull/61) : Include grafana-image-renderer in NOTICE.md
 
 ### Fixed
 
